@@ -1,4 +1,3 @@
-altair @ file:///tmp/build/80754af9/altair_1599835197802/work
 argon2-cffi==20.1.0
 astor==0.8.1
 async-generator==1.10
