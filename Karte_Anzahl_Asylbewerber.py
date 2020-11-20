@@ -14,7 +14,7 @@ import numpy as np
 #def load_data():
     
 # CSV einlesen
-df = pd.read_csv("/Users/yaildaaini/Desktop/streamlit/0_Tutorial/VIS/Kartenuebersicht.csv", encoding ="utf8", sep=";")
+df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/Kartenuebersicht.csv", encoding ="utf8", sep=";")
 
 # Umwandeln funktioniert nicht, da es NA nicht verarbeiten kann
 # df["wU18"]= df["wU18"].astype('int')
