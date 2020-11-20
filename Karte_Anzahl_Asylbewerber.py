@@ -62,7 +62,8 @@ df.drop(indexNames , inplace=True)
     
 
 # In[6]:
-
+#Vollbild verwenden
+st.set_page_config(layout="wide")
 
 # Karte mit Farben (Anzahl Asylbewerber)
 fig = go.Figure(data=go.Choropleth(
