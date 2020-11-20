@@ -13,28 +13,19 @@ import numpy as np
 #Datentabelle laden und ausblenden
 #def load_data():
     
-# CSV einlesen
-df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/Kartenuebersicht.csv", encoding ="utf8", sep=";")
+# read CSV
+df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/map.csv", encoding ="utf8", sep=";")
 
-# Umwandeln funktioniert nicht, da es NA nicht verarbeiten kann
-# df["wU18"]= df["wU18"].astype('int')
-
-#df
-
-
-# In[3]:
-
-
-    # Ländernamen ersetzen/kürzen
-df['Geo'].replace({'Deutschland (bis 1990 früheres Gebiet der BRD)':'Deutschland','Kosovo (gemäß der Resolution 1244/99 des Sicherheitsrates der Vereinten Nationen)':'Kosovo', 'Föderierte Staaten von Mikronesien': 'Mikronesien'},inplace=True)
-df['Citizen'].replace({'Deutschland (bis 1990 früheres Gebiet der BRD)':'Deutschland','Kosovo (gemäß der Resolution 1244/99 des Sicherheitsrates der Vereinten Nationen)':'Kosovo', 'Föderierte Staaten von Mikronesien': 'Mikronesien'},inplace=True)
-
-# Insgesamt entfernen
-indexNames = df[ df['Geo'] == 'Insgesamt' ].index
+# Remove 'overall' and 'Überseeische Länder und Hoheitsgebiet'
+indexNames = df[ df['destinationCountry'] == 'Overall' ].index
 df.drop(indexNames , inplace=True)
-indexNames = df[ df['Citizen'] == 'Insgesamt' ].index
+indexNames = df[ df['homeCountry'] == 'Overall' ].index
 df.drop(indexNames , inplace=True)
-#df
+
+indexNames = df[ df['destinationCountry'] == 'Überseeische Länder und Hoheitsgebiete' ].index
+df.drop(indexNames , inplace=True)
+indexNames = df[ df['homeCountry'] == 'Überseeische Länder und Hoheitsgebiete' ].index
+df.drop(indexNames , inplace=True)
 
 
 # In[4]:
@@ -43,8 +34,8 @@ df.drop(indexNames , inplace=True)
 # Berechnung der Anzahl aller Antragssteller in einem Land nach Jahr (diese Daten sind nur von Europa verfügbar)
 # Speichern in neu erstellten Zeile 'sum'
 
-df['sum']=df.groupby(['Geo','Year'])['PersonenGesamt'].transform('sum')
-    
+df['sum']=df.groupby(['destinationCountry','year'])['total'].transform('sum')
+
 
 # In[5]:
 
@@ -53,35 +44,33 @@ df['sum']=df.groupby(['Geo','Year'])['PersonenGesamt'].transform('sum')
 # df = load_data()
 
 
-# Lösche alle Zellen, außer ein Jahr!
+# Delete all cells, except one year!
 a = 2018
-indexNames = df[ df['Year'] != a ].index
+indexNames = df[ df['year'] != a ].index
 df.drop(indexNames , inplace=True)
-#df
 
-    
 
 # In[6]:
 #Vollbild verwenden
 st.set_page_config(layout="wide")
 
-# Karte mit Farben (Anzahl Asylbewerber)
+# Map with colours (Number of asylum applications)
 fig = go.Figure(data=go.Choropleth(
-    locations = df['GeoCode'],
+    locations = df['geoCodeDC'],
     z = df['sum'],
-    text = df['Geo'],
+    text = df['destinationCountry'],
     colorscale = 'Blues', #Viridis
     autocolorscale=False,
     reversescale=False,
     marker_line_color='darkgray',
     marker_line_width=0.5,
     colorbar_tickprefix = '',
-    colorbar_title = 'Anzahl Antraege'
+    colorbar_title = 'Number of asylum applications'
 ))
 
 
 fig.update_layout(
-    title_text='Asylbewerber in Europa im Jahr %s' % a,
+    title_text='Asylum seekers in Europe in the year %s' % a,
     geo=dict(
         showframe=False,
         showcoastlines=False,
