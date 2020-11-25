@@ -14,6 +14,10 @@ body {
 }
 </style>
     """, unsafe_allow_html=True)
+
+# read CSV
+df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart.csv", encoding ="utf8", sep=";")
+
 st.title("Streamlit Title")
 c1, c2 = st.beta_columns((1, 1))
 container = st.beta_container()
@@ -36,11 +40,21 @@ fig1 = go.Figure(data=[go.Sankey(
 
 #sankeyone= st.plotly_chart(fig1)
 
-df = px.data.gapminder().query("year == 2007").query("continent == 'Americas'")
-fig2 = px.pie(df, values='pop', names='country',
-             title='Population of American continent',
-             hover_data=['lifeExp'], labels={'lifeExp':'life expectancy'})
-fig2.update_traces(textposition='inside', textinfo='percent+label')
+#df = px.data.gapminder().query("year == 2007").query("continent == 'Americas'")
+#fig2 = px.pie(df, values='pop', names='country',
+#             title='Population of American continent',
+#             hover_data=['lifeExp'], labels={'lifeExp':'life expectancy'})
+#fig2.update_traces(textposition='inside', textinfo='percent+label')
+
+
+#Create pie chart
+
+# Daten in Liste übergeben
+labels = df['year'].tolist()
+values = df['2019'].tolist()
+
+fig2 = go.Figure(data=[go.Pie(labels=labels, values=values, textinfo='label+percent', insidetextorientation='radial', title='Kuchendiagramm')])
+
 
 # Create figure 3
 fig3 = go.Figure()
@@ -95,3 +109,4 @@ with c2:
 with container:
     st.plotly_chart(fig3)
    
+    
