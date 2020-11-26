@@ -51,43 +51,57 @@ def write():
     fig3 = go.Figure()
     
     # Add traces, one for each slider step
-    for step in np.arange(0, 5, 0.1):
+    for step in np.arange(10):                                  # Zeitrahl Schritte von 2010 bis 2019
         fig3.add_trace(
             go.Scatter(
                 visible=False,
-                line=dict(color='LightSkyBlue', width=3),
+                line=dict(color='LightSkyBlue', width=3),       # Zeitstrahl Linie
                 
                 name="𝜈 = " + str(step),
-                x=np.arange(0, 10, 0.01),
-                y=np.sin(step * np.arange(0, 10, 0.01))))
-        
-    # Make 10th trace visible
-    fig3.data[10].visible = True
+                x=np.arange(0, 5, 0.01),
+                y=np.sin(step * np.arange(0, 1, 0.02))))        # Sinus Formel
     
-    # Create and add slider
+    # Make 10th trace visible
+    fig3.data[2].visible = True
+    
+# ------------------Create and add slider VS 1.0---------------
+    #steps = []
+    #for i in range(len(fig3.data)):
+        #step = dict(
+            #method="update",
+            #args=[{"visible": [False] * len(fig3.data)},
+                #  {"title": "Slider switched to step: " + str(i)}],  # layout attribute
+        #)
+        #step["args"][0]["visible"][i] = True  # Toggle i'th trace to "visible"
+        #steps.append(step)
+    
+        #sliders = [dict(
+        #active=10,
+        #currentvalue={"prefix": "Frequency: "},
+        #pad={"t": 50},
+        #steps=steps
+        #)]
+    
+# ------------------Create and add slider VS 1.1---------------
     steps = []
     for i in range(len(fig3.data)):
-        step = dict(
-            method="update",
-            args=[{"visible": [False] * len(fig3.data)},
-                    {"title": "Slider switched to step: " + str(i)}],  # layout attribute
-        )
-        step["args"][0]["visible"][i] = True  # Toggle i'th trace to "visible"
+        step = dict(method='restyle',
+                    args=['visible', [False] * len(fig3.data)],
+                    #label='{}'.format(i + 2010))
+                    label = i + 2010)
+        step['args'][1][i] = True
         steps.append(step)
         
-    sliders = [dict(
-        active=10,
-        currentvalue={"prefix": "Frequency: "},
-        pad={"t": 50},
-        steps=steps
-    )]
+        
+    sliders = [dict(active=9,
+        pad={"t": 20},          #padding
+        steps=steps)]    
+    
     
     fig3.update_layout(
         sliders=sliders,
-        width=1500
-    )
-    
-    
+        width=1000
+    )    
     
     #fig.show()
     
