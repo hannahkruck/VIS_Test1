@@ -1,8 +1,6 @@
 """Home page shown when the user enters the application"""
 import streamlit as st
-
 import awesome_streamlit as ast
-import streamlit as st
 import plotly.graph_objects as go
 import pandas as pd
 import altair as alt
@@ -30,16 +28,12 @@ def write():
         df.drop(indexNames , inplace=True)
 
 
-        # In[4]:
-
 
         # Berechnung der Anzahl aller Antragssteller in einem Land nach Jahr (diese Daten sind nur von Europa verfügbar)
         # Speichern in neu erstellten Zeile 'sum'
 
         df['sum']=df.groupby(['destinationCountry','year'])['total'].transform('sum')
 
-
-        # In[5]:
 
         #Datentabelle ausblenden
         #    return df
@@ -97,4 +91,5 @@ def write():
         st.sidebar.multiselect("Select Origin Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
         st.sidebar.multiselect("Select Destination Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
 
-        st.dataframe(data=df)
+#Datentabelle einblenden
+    #    st.dataframe(data=df)
