@@ -21,24 +21,103 @@ def write():
     
     c1, c2 = st.beta_columns((1, 1))
     container = st.beta_container()
-    #https://www.geeksforgeeks.org/sankey-diagram-using-plotly-in-python/
-    fig1 = go.Figure(data=[go.Sankey( 
-            node = dict( 
-                thickness = 5, 
-                line = dict(color = "blue", width = 0.1), 
-                label = ["Deutschland", "Syrien", "Irak", "Türkei", "Afghanistan", "Nigeria", "Iran", "Russland", "Somalia"], 
-                
-                color = "purple"
-            ), 
-            link = dict( 
-                
-                # indices correspond to labels 
-                source = [1, 2, 3, 4, 5, 6, 7, 8],  
-                target = [0, 0, 0, 0, 0, 0, 0, 0], 
-                value = [41060, 15325, 11400, 11280, 10510, 9490,4450,4145] 
-        ))]) 
     
-    #Create pie chart
+
+#---------------Create sankey diagramm--------------------------
+#https://www.geeksforgeeks.org/sankey-diagram-using-plotly-in-python/
+#https://coderzcolumn.com/tutorials/data-science/how-to-plot-sankey-diagram-in-python-jupyter-notebook-holoviews-and-plotly#2
+    
+    # Nodes & links
+    nodes = [['ID', 'Label', 'Color'],
+            [0,'Afghanistan','#4994CE'], # # AKJ
+            [1,'Syria','#8A5988'],
+            [2,'Serbia','#449E9E'],
+            [3,'Irak','#7FC241'],
+            [4,'Kosovos','#D3D3D3'],
+            [5,'Iran','#4994CE'],
+            [6,'Germany', '#D3D3D3'],
+            [7,'France','#4994CE'],
+            [8,'Sweden','#4994CE'],
+            [9,'Greece','#4994CE']]
+    
+    # links with your data
+    links = [['Source','Target','Value','Link Color'],
+        
+        # Afghanistan
+        [0,6,11280,'rgba(127, 194, 65, 0.2)'], #Afghanistan - Deutschland Value
+        [0,7,12085,'rgba(127, 194, 65, 0.2)'],
+        [0,8,905,'rgba(127, 194, 65, 0.2)'],
+        [0,9,23820,'rgba(127, 194, 65, 0.2)'],
+        
+        # Syria
+        [1,6,41060,'rgba(211, 211, 211, 0.5)'],
+        [1,7,3080,'rgba(211, 211, 211, 0.5)'],
+        [1,8,5225,'rgba(211, 211, 211, 0.5)'],
+        [1,9,10855,'rgba(127, 194, 65, 0.2)'],
+        
+        # Serbia
+        [2,6,6795,'rgba(253, 227, 212, 1)'],
+        [2,7,790,'rgba(253, 227, 212, 1)'],
+        [2,8,6250,'rgba(253, 227, 212, 1)'],
+        [2,9,0,'rgba(127, 194, 65, 0.2)'],
+        
+        # Irak
+        [3,6,15325,'rgba(253, 227, 212, 1)'],
+        [3,7,1370,'rgba(253, 227, 212, 1)'],
+        [3,8,1220,'rgba(253, 227, 212, 1)'],
+        [3,9,5740,'rgba(127, 194, 65, 0.2)'],
+        
+        # Iran
+        [5,6,9490,'rgba(253, 227, 212, 1)'],
+        [5,7,630,'rgba(253, 227, 212, 1)'],
+        [5,8,1115,'rgba(253, 227, 212, 1)'],
+        [5,9,2390,'rgba(127, 194, 65, 0.2)']]
+    
+    
+    # Retrieve headers and build dataframes
+    nodes_headers = nodes.pop(0)
+    links_headers = links.pop(0)
+    df_nodes = pd.DataFrame(nodes, columns = nodes_headers)
+    df_links = pd.DataFrame(links, columns = links_headers)
+    
+    # Sankey plot setup
+    data_trace = dict(
+            type='sankey',
+            domain = dict(
+                x =  [0,1],
+                y =  [0,1]
+            ),
+            orientation = "h",
+            valueformat = ".0f",
+            node = dict(
+                pad = 10,
+            # thickness = 30,
+                line = dict(
+                    color = "black",
+                    width = 0
+                ),
+                label =  df_nodes['Label'].dropna(axis=0, how='any'),
+                color = df_nodes['Color']
+            ),
+            link = dict(
+                source = df_links['Source'].dropna(axis=0, how='any'),
+                target = df_links['Target'].dropna(axis=0, how='any'),
+                value = df_links['Value'].dropna(axis=0, how='any'),
+                color = df_links['Link Color'].dropna(axis=0, how='any'),
+        )
+    )
+    
+    layout = dict(
+                    title = "Top 10",
+            height = 772,
+            font = dict(
+                size = 10),)
+    
+    fig1 = dict(data=[data_trace], layout=layout)
+    
+    
+    
+#------------Create pie chart-------------------
         
     # Daten in Liste übergeben
     labels = df['year'].tolist()
@@ -60,6 +139,7 @@ def write():
                 name="𝜈 = " + str(step),
                 x=np.arange(0, 5, 0.01),
                 y=np.sin(step * np.arange(0, 1, 0.02))))        # Sinus Formel
+    
     
     # Make 10th trace visible
     fig3.data[2].visible = True
