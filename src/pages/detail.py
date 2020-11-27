@@ -109,7 +109,7 @@ def write():
     
     layout = dict(
                     title = "Top 10",
-            height = 772,
+            height = 500,
             font = dict(
                 size = 10),)
     
