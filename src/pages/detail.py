@@ -1,8 +1,6 @@
 """This page is for more details"""
 import logging
-
 import streamlit as st
-
 import awesome_streamlit as ast
 import pandas as pd
 import plotly.graph_objects as go
@@ -14,33 +12,38 @@ logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
 
 def write():
     """Writes content to the app"""
-    ast.shared.components.title_awesome("Detail")
-
-    # read CSV
+    #ast.shared.components.title_awesome("Detail")      # Titel Awesome_Streamlit
+    
+    #Titel der Seite
+    st.title("Detailansicht")
+#   st.header('Hier kann ein Text rein')
+    
+    # lese CSV
     df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart.csv", encoding ="utf8", sep=";")
     
     c1, c2 = st.beta_columns((1, 1))
     container = st.beta_container()
     
 
-#---------------Create sankey diagramm--------------------------
+#-------------------------Create Sankey diagram-------------------------------
 #https://www.geeksforgeeks.org/sankey-diagram-using-plotly-in-python/
 #https://coderzcolumn.com/tutorials/data-science/how-to-plot-sankey-diagram-in-python-jupyter-notebook-holoviews-and-plotly#2
     
-    a = 2019
+    # Variabel: Auswahl Jahr fuer Sankey diagramm
+    a = 2019                           
     
-    # Nodes & links
-    nodes = [['ID', 'Label', 'Color'],      
-            #Origin
-            [0,'Syria','#2e8b57'],    #fertig
-            [1,'Irak','#cd8162'],            
+    # Nodes & links & colors
+    nodes = [['ID', 'Label', 'Color'],  
+            #Origins
+            [0,'Syria','#2e8b57'],
+            [1,'Irak','#cd8162'],
             [2,'Iran','#00e5ee'],
             [3,'Türkei','#458b74'],
-            [4,'Nigeria','#C37522'], #fertig
-            [5,'Afghanistan','#2270C3'], # fertig
+            [4,'Nigeria','#C37522'], 
+            [5,'Afghanistan','#2270C3'], 
             [6,'Albanien','#ff6a6a'],
-            [7,'Pakistan','#9370db'], #fertig
-            [8,'Venezuela','#CDC037'], #fertig
+            [7,'Pakistan','#9370db'], 
+            [8,'Venezuela','#CDC037'], 
             [9,'Colombia','#787878'],
 
             #Target
@@ -55,7 +58,7 @@ def write():
             [18,'Italy','#0B2641'],
             [19,'Spain','#0B2641']]
     
-    # links with your data
+    # Verlinkungen Source und Target mit folgenden Daten 
     links = [['Source','Target','Value','Link Color'],
         
         # Syrien
@@ -179,32 +182,32 @@ def write():
         [9,19,29275,'rgba(120, 120, 120, 0.35)'],]
     
     
-    # Retrieve headers and build dataframes
+    # Abrufen von Header und Aufbau des Datenrahmens
     nodes_headers = nodes.pop(0)
     links_headers = links.pop(0)
     df_nodes = pd.DataFrame(nodes, columns = nodes_headers)
     df_links = pd.DataFrame(links, columns = links_headers)
     
-    # Sankey plot setup
+    # Eigenschaften fuer Sankey plot
     data_trace = dict(
             type='sankey',
             domain = dict(
                 x =  [0,1],
                 y =  [0,1]
             ),
-            orientation = "h",
-            valueformat = ".0f",
-            node = dict(
-                pad = 10,
-            # thickness = 30,
-                line = dict(
-                    color = "black",
-                    width = 0
-                ),
-                label =  df_nodes['Label'].dropna(axis=0, how='any'),
-                color = df_nodes['Color']
+            orientation = "h",      # Diagram horizontal
+            valueformat = ".0f",    
+            
+            node = dict(            # Eigenschaften Knoten
+                pad = 10,              
+
+            line = dict(            # Eigenschaften Kantenlinien 
+                color = "black",    
+                width = 0),
+                label =  df_nodes['Label'].dropna(axis=0, how='any'),   # Label anzeigen
+                color = df_nodes['Color']                               # Kantenfarben
             ),
-            link = dict(
+            link = dict(            # Alle Verlinkungen
                 source = df_links['Source'].dropna(axis=0, how='any'),
                 target = df_links['Target'].dropna(axis=0, how='any'),
                 value = df_links['Value'].dropna(axis=0, how='any'),
@@ -212,26 +215,33 @@ def write():
         )
     )
     
+    # Eigenschaften Sanky Diagram Layout 
     layout = dict(
-                    #title = "Top 10",
-            title='Top 10 Origin Asylum Applications %s' % a,
+            #"Top 10 Verteilung der Asylanträge eines Landes auf die verschiedenen Zielländer"
+            title='Top 10 Distribution of a Countries Asylum Applications among the various Countries of Destination  %s' % a,
             height = 700,                   
-            font = dict(
-                size = 10),)
+            font = dict(size = 10),)
     
     fig1 = dict(data=[data_trace], layout=layout)
     
     
-    
 #------------Create pie chart-------------------
-        
+
     # Daten in Liste übergeben
     labels = df['year'].tolist()
     values = df['2019'].tolist()
+    #header = st.header('Age Distribution of Asylum Seekers Worldwide %s' % a)
     
-    fig2 = go.Figure(data=[go.Pie(labels=labels, values=values, textinfo='label+percent', insidetextorientation='radial', title='Kuchendiagramm')])
     
+    fig2 = go.Figure(data=[go.Pie(
+        labels=labels, 
+        values=values, 
+        textinfo='label+percent', 
+        insidetextorientation='radial', 
+        title='Age Distribution of Asylum Seekers Worldwide %s' % a)])
     
+
+#------------Create Timeline Years-------------------
     # Create figure 3
     fig3 = go.Figure()
     
