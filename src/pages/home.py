@@ -41,7 +41,7 @@ def write():
 
 
         # Delete all cells, except one year!
-        a = 2018
+        a = 2019
         indexNames = df[ df['year'] != a ].index
         df.drop(indexNames , inplace=True)
 
