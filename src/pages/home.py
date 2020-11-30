@@ -136,11 +136,11 @@ def write():
             hoverinfo = 'text',
             text = df['destinationCountry'],
             line = dict(width = 1,color = 'red'),
-            opacity = 0.5,
+            opacity = 0.510,
             visible=False,
             mode = 'markers',
             marker = dict(
-                size = 2,
+                size = 3,
                 color = 'rgb(255, 0, 0)',
                 line = dict(
                     width = 3,
@@ -170,9 +170,22 @@ def write():
         )
     
         fig.update_layout(
+            title_text = 'Paths in the year %s' % yearMapLines,
+            showlegend = True,
+            geo = go.layout.Geo(
+                scope = 'world',
+                #projection_type = 'azimuthal equal area',
+                showland = True,
+                showcountries=True,
+                landcolor = 'rgb(243, 243, 243)',
+                countrycolor = 'rgb(105,105,105)',
+            ),
+            height=700,
+        )
+        
+        fig.update_layout(
             updatemenus=[
                 dict(
-                    
                     type="buttons",
                     direction="right",
                     active=0,
@@ -192,23 +205,6 @@ def write():
                 )
             ])        
     
-    
-    
-        fig.update_layout(
-            title_text = 'Paths in the year %s' % yearMapLines,
-            showlegend = True,
-            geo = go.layout.Geo(
-                scope = 'world',
-                #projection_type = 'azimuthal equal area',
-                showland = True,
-                showcountries=True,
-                landcolor = 'rgb(243, 243, 243)',
-                countrycolor = 'rgb(105,105,105)',
-            ),
-            height=700,
-        )
-            
-        
         fig.update_layout(
             title_text='Asylum seekers in Europe in the year %s' % a,
             geo=dict(
