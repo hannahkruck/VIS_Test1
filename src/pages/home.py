@@ -59,6 +59,10 @@ def write():
         df.drop(indexNames , inplace=True)
 
 
+        
+        st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
+        
+
 #----------------Sidebar und Parameter------------------------------
         st.sidebar.header("Filters")
         st.sidebar.multiselect("Select Age", ("All", "under 18", "18 - 34", "35 - 64", "over 64"))
