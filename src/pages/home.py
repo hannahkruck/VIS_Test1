@@ -13,7 +13,7 @@ def write():
     with st.spinner("Loading Home ..."):
         #ast.shared.components.title_awesome("")    #Title Awesome Streamlit ausgeblendet
         
-        st.title("Welcome to the Asylum Seekers Information Website")
+        st.title("Welcome to the Asylum Seekers EU Information Website")
         
         # read CSV
         df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/mapNew.csv", encoding ="utf8", sep=";")
@@ -61,18 +61,18 @@ def write():
 
 #----------------Sidebar und Parameter------------------------------
         st.sidebar.header("Filters")
-        st.sidebar.multiselect("Select Age", ("All", "under 18", "18 - 35", "26 - 35", "36 - 45"))
-        st.sidebar.multiselect("Select Gender", ("All", "Male", "Female", "Other/unknown"))
-        st.sidebar.multiselect("Select Origin Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
-        st.sidebar.multiselect("Select Destination Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
+        st.sidebar.multiselect("Select Age", ("All", "under 18", "18 - 34", "35 - 64", "over 64"))
+        st.sidebar.multiselect("Select Gender", ("All", "Male", "Female"))
+        #st.sidebar.multiselect("Select Origin Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
+        #st.sidebar.multiselect("Select Destination Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
         
         # Parameterfilter - Nur bestimmte Ziellaender anzeigen lassen
-        country_name_input = st.sidebar.multiselect(
-        'Select Destination Country (funktioniert)',
-        df.groupby('destinationCountry').count().reset_index()['destinationCountry'].tolist())
+        #country_name_input = st.sidebar.multiselect(
+        #'Select Destination Country (funktioniert)',
+        #df.groupby('destinationCountry').count().reset_index()['destinationCountry'].tolist())
         # by country name
-        if len(country_name_input) > 0:
-            df = df[df['destinationCountry'].isin(country_name_input)]
+        #if len(country_name_input) > 0:
+        #    df = df[df['destinationCountry'].isin(country_name_input)]
             
         #Vollbild verwenden
         #st.set_page_config(layout="wide")
@@ -117,7 +117,7 @@ def write():
             locations = df['geoCodeDC'],
             z = df['sum'],
             text = df['destinationCountry'],
-            colorscale = 'Blues', #Viridis
+            colorscale = 'Blues',                   #Magenta
             autocolorscale=False,
             reversescale=False,
             marker_line_color='darkgray',
