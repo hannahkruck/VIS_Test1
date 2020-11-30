@@ -15,7 +15,7 @@ def write():
     #ast.shared.components.title_awesome("Detail")      # Titel Awesome_Streamlit
     
     #Titel der Seite
-    st.title("Detailansicht")
+    st.title("Detailed view")
 #   st.header('Hier kann ein Text rein')
     
     # lese CSV
