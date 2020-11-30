@@ -59,7 +59,7 @@ def write():
         df.drop(indexNames , inplace=True)
 
 
-        
+    
         st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
         
 
@@ -67,6 +67,9 @@ def write():
         st.sidebar.header("Filters")
         st.sidebar.multiselect("Select Age", ("All", "under 18", "18 - 34", "35 - 64", "over 64"))
         st.sidebar.multiselect("Select Gender", ("All", "Male", "Female"))
+        
+        st.sidebar.header("Filter for Choropleth Map")
+        st.sidebar.multiselect("Select Map Information",("Applications to target countries", "Applicants by country of origin"))
         #st.sidebar.multiselect("Select Origin Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
         #st.sidebar.multiselect("Select Destination Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
         
@@ -114,6 +117,10 @@ def write():
         
         #Link Toggle Map https://plotly.com/python/custom-buttons/
                 # Choropleth Map with colours (Number of asylum applications)
+                
+              
+        
+                
         fig = go.Figure()
     
         fig.add_trace(
@@ -128,8 +135,11 @@ def write():
             marker_line_width=0.5,
             colorbar_tickprefix = '',
             colorbar_title = 'Number of<br>asylum<br>applications<br>',
+        
                 
-        ))
+        ))    
+
+        
     
     
         fig.add_trace(
@@ -187,7 +197,10 @@ def write():
             height=700,
         )
         
+        
+        
         fig.update_layout(
+            
             updatemenus=[
                 dict(
                     type="buttons",
@@ -205,6 +218,7 @@ def write():
                             method="update",
                             args=[{"visible": [False,True,True]},
                                     ]),
+                        
                     ]),
                 )
             ])        
@@ -216,6 +230,7 @@ def write():
                 showcoastlines=False,
                 projection_type='equirectangular'
             ),
+            
             autosize=True,
             width=1500,
             height=1080,
@@ -223,8 +238,8 @@ def write():
         
         
         
-        
         st.plotly_chart(fig)
+        
         
 #--------------------Slider Steps------------------------------------#
 #https://stackoverflow.com/questions/46777047/how-to-make-a-choropleth-map-with-a-slider-using-plotly
