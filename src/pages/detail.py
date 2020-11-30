@@ -23,6 +23,7 @@ def write():
     
     c1, c2 = st.beta_columns((1, 1))
     container = st.beta_container()
+    st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
     
 
 #-------------------------Create Sankey diagram-------------------------------
