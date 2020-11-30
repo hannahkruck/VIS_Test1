@@ -17,6 +17,7 @@ def write():
         
         # read CSV
         df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/mapNew.csv", encoding ="utf8", sep=";")
+        df2 = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/mapNew.csv", encoding ="utf8", sep=";")
 
         # Remove 'overall' and 'Überseeische Länder und Hoheitsgebiet'
         indexNames = df[ df['destinationCountry'] == 'Overall' ].index
@@ -29,12 +30,23 @@ def write():
         indexNames = df[ df['homeCountry'] == 'Überseeische Länder und Hoheitsgebiete' ].index
         df.drop(indexNames , inplace=True)
 
+        # Remove 'overall' and 'Überseeische Länder und Hoheitsgebiet'
+        indexNames = df2[ df2['destinationCountry'] == 'Overall' ].index
+        df2.drop(indexNames , inplace=True)
+        indexNames = df2[ df2['homeCountry'] == 'Overall' ].index
+        df2.drop(indexNames , inplace=True)
+
+        indexNames = df2[ df2['destinationCountry'] == 'Überseeische Länder und Hoheitsgebiete' ].index
+        df2.drop(indexNames , inplace=True)
+        indexNames = df2[ df2['homeCountry'] == 'Überseeische Länder und Hoheitsgebiete' ].index
+        df2.drop(indexNames , inplace=True)
+
 
 
         # Berechnung der Anzahl aller Antragssteller in einem Land nach Jahr (diese Daten sind nur von Europa verfügbar)
         # Speichern in neu erstellten Zeile 'sum'
 
-        df['sum']=df.groupby(['destinationCountry','year'])['total'].transform('sum')
+        df['sum']=df.groupby(['homeCountry','year'])['total'].transform('sum')
 
 
         #Datentabelle ausblenden
@@ -43,20 +55,20 @@ def write():
 
 
         # Delete all cells, except one year!
-        a = 2019
-        indexNames = df[ df['year'] != a ].index
+        year = 2019
+        indexNames = df[ df['year'] != year ].index
         df.drop(indexNames , inplace=True)
 
-        # Line Map Jahr
-        yearMapLines = 2019
-        indexNames = df[ df['year'] != yearMapLines ].index
-        df.drop(indexNames , inplace=True)
+        indexNames = df2[ df2['year'] != year ].index
+        df2.drop(indexNames , inplace=True)
+        indexNames = df2[ df2['total'] == 0 ].index
+        df2.drop(indexNames , inplace=True)
         
         # Auswahl eines bestimmten Ziellandes
         countryCategory = 'homeCountry'#homeCountry or destinationCountry
         countryName = 'Syria'
-        indexNames = df[ df[countryCategory] != countryName ].index
-        df.drop(indexNames , inplace=True)
+        indexNames = df2[ df2[countryCategory] != countryName ].index
+        df2.drop(indexNames , inplace=True)
 
 
     
@@ -69,10 +81,14 @@ def write():
         st.sidebar.multiselect("Select Gender", ("All", "Male", "Female"))
         
         st.sidebar.header("Filter for Choropleth Map")
-        st.sidebar.multiselect("Select Map Information",("Applications to target countries", "Applicants by country of origin"))
+        #color_input= st.sidebar.multiselect("Select Map Information",("Applications to target countries", "Applicants by country of origin"))
         #st.sidebar.multiselect("Select Origin Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
         #st.sidebar.multiselect("Select Destination Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
-        
+
+
+
+
+
         # Parameterfilter - Nur bestimmte Ziellaender anzeigen lassen
         #country_name_input = st.sidebar.multiselect(
         #'Select Destination Country (funktioniert)',
@@ -125,10 +141,10 @@ def write():
     
         fig.add_trace(
             go.Choropleth(
-            locations = df['geoCodeDC'],
+            locations = df['geoCodeHC'],
             z = df['sum'],
-            text = df['destinationCountry'],
-            colorscale = 'Blues',                   #Magenta
+            text = df['homeCountry'],
+            colorscale = 'Reds',                   #Magenta
             autocolorscale=False,
             reversescale=False,
             marker_line_color='darkgray',
@@ -145,10 +161,10 @@ def write():
         fig.add_trace(
             go.Scattergeo(
             locationmode = 'country names',
-            lon = df['lonDC'],
-            lat = df['latDC'],
+            lon = df2['lonDC'],
+            lat = df2['latDC'],
             hoverinfo = 'text',
-            text = df['destinationCountry'],
+            text = df2['destinationCountry'],
             line = dict(width = 1,color = 'red'),
             opacity = 0.510,
             visible=False,
@@ -164,12 +180,12 @@ def write():
     
         lons = []
         lats = []
-        lons = np.empty(2 * len(df))
-        lons[::2] = df['lonDC']
-        lons[1::2] = df['lonHC']
-        lats = np.empty(2 * len(df))
-        lats[::2] = df['latDC']
-        lats[1::2] = df['latHC']
+        lons = np.empty(2 * len(df2))
+        lons[::2] = df2['lonDC']
+        lons[1::2] = df2['lonHC']
+        lats = np.empty(2 * len(df2))
+        lats[::2] = df2['latDC']
+        lats[1::2] = df2['latHC']
     
         fig.add_trace(
             go.Scattergeo(
@@ -184,7 +200,6 @@ def write():
         )
     
         fig.update_layout(
-            title_text = 'Paths in the year %s' % yearMapLines,
             showlegend = True,
             geo = go.layout.Geo(
                 scope = 'world',
@@ -224,7 +239,7 @@ def write():
             ])        
     
         fig.update_layout(
-            title_text='Asylum seekers in Europe in the year %s' % a,
+            title_text='Asylum seekers in Europe in the year %s' % year,
             geo=dict(
                 showframe=False,            # Map Rahmen ausgeblendet
                 showcoastlines=False,
