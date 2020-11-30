@@ -81,7 +81,7 @@ def write():
         st.sidebar.multiselect("Select Gender", ("All", "Male", "Female"))
         
         st.sidebar.header("Filter for Choropleth Map")
-        #color_input= st.sidebar.multiselect("Select Map Information",("Applications to target countries", "Applicants by country of origin"))
+        st.sidebar.multiselect("Select Map Information",("Applications to target countries", "Applicants by country of origin"))
         #st.sidebar.multiselect("Select Origin Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
         #st.sidebar.multiselect("Select Destination Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
 
