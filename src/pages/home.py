@@ -186,7 +186,7 @@ def write():
                         
                         dict(label="Line Map",
                             method="update",
-                            args=[{"visible": [True]},
+                            args=[{"visible": [False,True,True]},
                                     ]),
                     ]),
                 )
