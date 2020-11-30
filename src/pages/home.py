@@ -123,7 +123,7 @@ def write():
             marker_line_color='darkgray',
             marker_line_width=0.5,
             colorbar_tickprefix = '',
-            colorbar_title = 'Number of asylum applications',
+            colorbar_title = 'Number of<br>asylum<br>applications<br>',
                 
         ))
     
@@ -196,7 +196,7 @@ def write():
     
         fig.update_layout(
             title_text = 'Paths in the year %s' % yearMapLines,
-            showlegend = False,
+            showlegend = True,
             geo = go.layout.Geo(
                 scope = 'world',
                 #projection_type = 'azimuthal equal area',
