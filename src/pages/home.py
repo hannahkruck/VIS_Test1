@@ -14,12 +14,26 @@ def write():
         #ast.shared.components.title_awesome("")    #Title Awesome Streamlit ausgeblendet
         
         st.title("Welcome to the Asylum Seekers EU Information Website")
-        
+        st.sidebar.header("Filters")
+        selectedAge = st.sidebar.multiselect("Select Age", ("All", "under 18", "18 - 34", "35 - 64", "over 64"))
+        selectedGender = st.sidebar.multiselect("Select Gender", ("All", "Male", "Female"))
+
+        # Filter for Choropleth Map
+        st.sidebar.header("Filter for Choropleth Map")
+        # Drop down menu for Choropleth Map Information
+        selectedMapInformation = st.sidebar.selectbox("Select Map Information",('Applications to target countries','Applicants by country of origin'))
+
+        #st.sidebar.multiselect("Select Origin Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
+        #st.sidebar.multiselect("Select Destination Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
+
+
         # read CSV
+        # CSV for Choropleth Map
         df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/mapNew.csv", encoding ="utf8", sep=";")
+        # CSV for Line Map
         df2 = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/mapNew.csv", encoding ="utf8", sep=";")
 
-        # Remove 'overall' and 'Überseeische Länder und Hoheitsgebiet'
+        # Remove 'overall' and 'Überseeische Länder und Hoheitsgebiet' for both CSV
         indexNames = df[ df['destinationCountry'] == 'Overall' ].index
         df.drop(indexNames , inplace=True)
         indexNames = df[ df['homeCountry'] == 'Overall' ].index
@@ -30,7 +44,6 @@ def write():
         indexNames = df[ df['homeCountry'] == 'Überseeische Länder und Hoheitsgebiete' ].index
         df.drop(indexNames , inplace=True)
 
-        # Remove 'overall' and 'Überseeische Länder und Hoheitsgebiet'
         indexNames = df2[ df2['destinationCountry'] == 'Overall' ].index
         df2.drop(indexNames , inplace=True)
         indexNames = df2[ df2['homeCountry'] == 'Overall' ].index
@@ -42,31 +55,41 @@ def write():
         df2.drop(indexNames , inplace=True)
 
 
+        year = 2013 #Platzhalter
 
-        # Berechnung der Anzahl aller Antragssteller in einem Land nach Jahr (diese Daten sind nur von Europa verfügbar)
-        # Speichern in neu erstellten Zeile 'sum'
 
-        df['sum']=df.groupby(['homeCountry','year'])['total'].transform('sum')
+        # Information for Choropleth Map based on the chosen map information
+        if 'target' in selectedMapInformation:
+            selectedMapInformation = "destinationCountry"
+            selectedCode = "geoCodeDC"
+            mapColor = "Blues"
+        else:
+            selectedMapInformation = "homeCountry"
+            selectedCode = "geoCodeHC"
+            mapColor = "Reds"
 
+        # Group the countries by year and sum up the number (total) in a new column sum (df['sum']
+        df['sum']=df.groupby([selectedMapInformation,'year'])['total'].transform('sum')
 
         #Datentabelle ausblenden
         #    return df
         # df = load_data()
 
 
-        # Delete all cells, except one year!
-        year = 2019
+        # Delete all cells, except one year (both maps)
         indexNames = df[ df['year'] != year ].index
         df.drop(indexNames , inplace=True)
 
         indexNames = df2[ df2['year'] != year ].index
         df2.drop(indexNames , inplace=True)
+
+        # Delete cells with a zero in column 'total' (Line Map)
         indexNames = df2[ df2['total'] == 0 ].index
         df2.drop(indexNames , inplace=True)
         
-        # Auswahl eines bestimmten Ziellandes
+        # Information for Line Map
         countryCategory = 'homeCountry'#homeCountry or destinationCountry
-        countryName = 'Syria'
+        countryName = 'Syria' #Platzhalter!
         indexNames = df2[ df2[countryCategory] != countryName ].index
         df2.drop(indexNames , inplace=True)
 
@@ -76,14 +99,6 @@ def write():
         
 
 #----------------Sidebar und Parameter------------------------------
-        st.sidebar.header("Filters")
-        st.sidebar.multiselect("Select Age", ("All", "under 18", "18 - 34", "35 - 64", "over 64"))
-        st.sidebar.multiselect("Select Gender", ("All", "Male", "Female"))
-        
-        st.sidebar.header("Filter for Choropleth Map")
-        st.sidebar.multiselect("Select Map Information",("Applications to target countries", "Applicants by country of origin"))
-        #st.sidebar.multiselect("Select Origin Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
-        #st.sidebar.multiselect("Select Destination Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
 
 
 
@@ -141,10 +156,10 @@ def write():
     
         fig.add_trace(
             go.Choropleth(
-            locations = df['geoCodeHC'],
+            locations = df[selectedCode],
             z = df['sum'],
-            text = df['homeCountry'],
-            colorscale = 'Reds',                   #Magenta
+            text = df[selectedMapInformation],
+            colorscale = mapColor,                   #Magenta
             autocolorscale=False,
             reversescale=False,
             marker_line_color='darkgray',
@@ -213,7 +228,7 @@ def write():
         )
         
         
-        
+        # Update figure (Choropleth or Line Map)
         fig.update_layout(
             
             updatemenus=[
@@ -261,6 +276,6 @@ def write():
 
         st.slider("Timeline Years", 2010,  2019)
 
-        
+
 #Datentabelle einblenden
     #    st.dataframe(data=df)
