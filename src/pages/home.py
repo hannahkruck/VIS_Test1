@@ -13,9 +13,6 @@ def write():
     with st.spinner("Loading Home ..."):
         #ast.shared.components.title_awesome("")    #Title Awesome Streamlit ausgeblendet
 
-        showChoropleth = True
-        showLine = False
-
         # read CSV
         # CSV for Choropleth Map
         df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/mapNew.csv", encoding ="utf8", sep=";")
@@ -44,8 +41,19 @@ def write():
         df2.drop(indexNames , inplace=True)
 
 
-
         st.title("Welcome to the Asylum Seekers EU Information Website")
+
+        # Select map
+        test = st.sidebar.radio("Map",('Choropleth Map', 'Line Map'))
+
+        if test == 'Choropleth Map':
+            showChoropleth = True
+            showLine = False
+        else:
+            showLine = True
+            showChoropleth = False
+
+        # Filter
         st.sidebar.header("Filters")
         selectedAge = st.sidebar.multiselect("Select Age", ("All", "under 18", "18 - 34", "35 - 64", "over 64"))
         selectedGender = st.sidebar.multiselect("Select Gender", ("All", "Male", "Female"))
@@ -57,8 +65,9 @@ def write():
 
         # Filter for Line Map
         st.sidebar.header("Filter for Line Map")
+        # Select type
         selectedType = st.sidebar.radio("Select type",('Target country','Origin country'))
-        # Drop down menu for Line Map Information
+
         if selectedType == 'Target country':
             selectedType = df.destinationCountry.unique()
             countryCategory = 'destinationCountry'
@@ -70,12 +79,8 @@ def write():
             selectedLon = 'lonHC'
             selectedLat = 'latHC'
 
+        # Drop down menu for selected country
         selectedCountryMapLine = st.sidebar.selectbox("Select country",(selectedType))
-        #selectedMapLineOrigin = st.sidebar.selectbox("Select origin country",(df.homeCountry.unique()))
-
-
-        #st.sidebar.multiselect("Select Origin Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
-        #st.sidebar.multiselect("Select Destination Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
 
 
         year = 2013 #Platzhalter
@@ -89,6 +94,7 @@ def write():
             selectedMapChoropleth = "homeCountry"
             selectedCode = "geoCodeHC"
             mapColor = "Reds"
+
 
         # Group the countries by year and sum up the number (total) in a new column sum (df['sum']
         df['sum']=df.groupby([selectedMapChoropleth,'year'])['total'].transform('sum')
@@ -180,6 +186,7 @@ def write():
         fig.add_trace(
             go.Choropleth(
             locations = df[selectedCode],
+            visible=showChoropleth,
             z = df['sum'],
             text = df[selectedMapChoropleth],
             colorscale = mapColor,                   #Magenta
@@ -205,7 +212,7 @@ def write():
             text = df2[countryCategory],
             line = dict(width = 1,color = 'red'),
             opacity = 0.510,
-            visible=False,
+            visible=showLine,
             mode = 'markers',
             marker = dict(
                 size = 3,
@@ -228,7 +235,7 @@ def write():
         fig.add_trace(
             go.Scattergeo(
                 locationmode = 'country names',
-                visible= False,
+                visible= showLine,
                 lon = lons,
                 lat = lats,
                 mode = 'lines',
@@ -250,8 +257,8 @@ def write():
             height=700,
         )
 
-
         # Update figure (Choropleth or Line Map)
+        '''
         fig.update_layout(
             
             updatemenus=[
@@ -274,7 +281,9 @@ def write():
                         
                     ]),
                 )
-            ])        
+            ]) 
+        '''
+
 
         fig.update_layout(
             title_text='Asylum seekers in Europe in the year %s' % year,
