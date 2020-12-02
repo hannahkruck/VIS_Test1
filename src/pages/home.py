@@ -12,20 +12,9 @@ def write():
     """Used to write the page in the app.py file"""
     with st.spinner("Loading Home ..."):
         #ast.shared.components.title_awesome("")    #Title Awesome Streamlit ausgeblendet
-        
-        st.title("Welcome to the Asylum Seekers EU Information Website")
-        st.sidebar.header("Filters")
-        selectedAge = st.sidebar.multiselect("Select Age", ("All", "under 18", "18 - 34", "35 - 64", "over 64"))
-        selectedGender = st.sidebar.multiselect("Select Gender", ("All", "Male", "Female"))
 
-        # Filter for Choropleth Map
-        st.sidebar.header("Filter for Choropleth Map")
-        # Drop down menu for Choropleth Map Information
-        selectedMapInformation = st.sidebar.selectbox("Select Map Information",('Applications to target countries','Applicants by country of origin'))
-
-        #st.sidebar.multiselect("Select Origin Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
-        #st.sidebar.multiselect("Select Destination Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
-
+        showChoropleth = True
+        showLine = False
 
         # read CSV
         # CSV for Choropleth Map
@@ -55,21 +44,54 @@ def write():
         df2.drop(indexNames , inplace=True)
 
 
+
+        st.title("Welcome to the Asylum Seekers EU Information Website")
+        st.sidebar.header("Filters")
+        selectedAge = st.sidebar.multiselect("Select Age", ("All", "under 18", "18 - 34", "35 - 64", "over 64"))
+        selectedGender = st.sidebar.multiselect("Select Gender", ("All", "Male", "Female"))
+
+        # Filter for Choropleth Map
+        st.sidebar.header("Filter for Choropleth Map")
+        # Drop down menu for Choropleth Map Information
+        selectedMapChoropleth = st.sidebar.selectbox("Select Map Information",('Applications to target countries','Applicants by country of origin'))
+
+        # Filter for Line Map
+        st.sidebar.header("Filter for Line Map")
+        selectedType = st.sidebar.radio("Select type",('Target country','Origin country'))
+        # Drop down menu for Line Map Information
+        if selectedType == 'Target country':
+            selectedType = df.destinationCountry.unique()
+            countryCategory = 'destinationCountry'
+            selectedLon = 'lonDC'
+            selectedLat = 'latDC'
+        else:
+            selectedType = df.homeCountry.unique()
+            countryCategory = 'homeCountry'
+            selectedLon = 'lonHC'
+            selectedLat = 'latHC'
+
+        selectedCountryMapLine = st.sidebar.selectbox("Select country",(selectedType))
+        #selectedMapLineOrigin = st.sidebar.selectbox("Select origin country",(df.homeCountry.unique()))
+
+
+        #st.sidebar.multiselect("Select Origin Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
+        #st.sidebar.multiselect("Select Destination Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
+
+
         year = 2013 #Platzhalter
 
-
         # Information for Choropleth Map based on the chosen map information
-        if 'target' in selectedMapInformation:
-            selectedMapInformation = "destinationCountry"
+        if 'target' in selectedMapChoropleth:
+            selectedMapChoropleth = "destinationCountry"
             selectedCode = "geoCodeDC"
             mapColor = "Blues"
         else:
-            selectedMapInformation = "homeCountry"
+            selectedMapChoropleth = "homeCountry"
             selectedCode = "geoCodeHC"
             mapColor = "Reds"
 
         # Group the countries by year and sum up the number (total) in a new column sum (df['sum']
-        df['sum']=df.groupby([selectedMapInformation,'year'])['total'].transform('sum')
+        df['sum']=df.groupby([selectedMapChoropleth,'year'])['total'].transform('sum')
 
         #Datentabelle ausblenden
         #    return df
@@ -88,9 +110,9 @@ def write():
         df2.drop(indexNames , inplace=True)
         
         # Information for Line Map
-        countryCategory = 'homeCountry'#homeCountry or destinationCountry
-        countryName = 'Syria' #Platzhalter!
-        indexNames = df2[ df2[countryCategory] != countryName ].index
+        #countryCategory = 'homeCountry'#homeCountry or destinationCountry
+        #countryName = 'Syria' #Platzhalter!
+        indexNames = df2[ df2[countryCategory] != selectedCountryMapLine ].index
         df2.drop(indexNames , inplace=True)
 
 
@@ -148,17 +170,18 @@ def write():
         
         #Link Toggle Map https://plotly.com/python/custom-buttons/
                 # Choropleth Map with colours (Number of asylum applications)
-                
-              
-        
+
+
+
                 
         fig = go.Figure()
-    
+
+
         fig.add_trace(
             go.Choropleth(
             locations = df[selectedCode],
             z = df['sum'],
-            text = df[selectedMapInformation],
+            text = df[selectedMapChoropleth],
             colorscale = mapColor,                   #Magenta
             autocolorscale=False,
             reversescale=False,
@@ -166,20 +189,20 @@ def write():
             marker_line_width=0.5,
             colorbar_tickprefix = '',
             colorbar_title = 'Number of<br>asylum<br>applications<br>',
-        
-                
-        ))    
 
-        
-    
-    
+
+        ))
+
+
+
+
         fig.add_trace(
             go.Scattergeo(
             locationmode = 'country names',
-            lon = df2['lonDC'],
-            lat = df2['latDC'],
+            lon = df2[selectedLon],
+            lat = df2[selectedLat],
             hoverinfo = 'text',
-            text = df2['destinationCountry'],
+            text = df2[countryCategory],
             line = dict(width = 1,color = 'red'),
             opacity = 0.510,
             visible=False,
@@ -191,8 +214,8 @@ def write():
                     width = 3,
                     color = 'rgba(68, 68, 68, 0)',
                 ))))
-    
-    
+
+
         lons = []
         lats = []
         lons = np.empty(2 * len(df2))
@@ -201,7 +224,7 @@ def write():
         lats = np.empty(2 * len(df2))
         lats[::2] = df2['latDC']
         lats[1::2] = df2['latHC']
-    
+
         fig.add_trace(
             go.Scattergeo(
                 locationmode = 'country names',
@@ -213,7 +236,7 @@ def write():
                 opacity = 0.5
             )
         )
-    
+
         fig.update_layout(
             showlegend = True,
             geo = go.layout.Geo(
@@ -226,8 +249,8 @@ def write():
             ),
             height=700,
         )
-        
-        
+
+
         # Update figure (Choropleth or Line Map)
         fig.update_layout(
             
@@ -252,7 +275,7 @@ def write():
                     ]),
                 )
             ])        
-    
+
         fig.update_layout(
             title_text='Asylum seekers in Europe in the year %s' % year,
             geo=dict(
@@ -260,7 +283,7 @@ def write():
                 showcoastlines=False,
                 projection_type='equirectangular'
             ),
-            
+
             autosize=True,
             width=1500,
             height=1080,
