@@ -83,7 +83,7 @@ def write():
         selectedCountryMapLine = st.sidebar.selectbox("Select country",(selectedType))
 
 
-        year = 2013 #Platzhalter
+        #year = 2013 #Platzhalter
 
         # Information for Choropleth Map based on the chosen map information
         if 'target' in selectedMapChoropleth:
@@ -102,13 +102,18 @@ def write():
         #Datentabelle ausblenden
         #    return df
         # df = load_data()
+        
 
+        # Slider to choose Year for choropleth map
+        year = st.slider("", (int(df["year"].min())),(int(df["year"].max()))) 
+        selected_year = year
+        
 
         # Delete all cells, except one year (both maps)
-        indexNames = df[ df['year'] != year ].index
+        indexNames = df[ df['year'] != selected_year ].index
         df.drop(indexNames , inplace=True)
 
-        indexNames = df2[ df2['year'] != year ].index
+        indexNames = df2[ df2['year'] != selected_year ].index
         df2.drop(indexNames , inplace=True)
 
         # Delete cells with a zero in column 'total' (Line Map)
@@ -127,10 +132,6 @@ def write():
         
 
 #----------------Sidebar und Parameter------------------------------
-
-
-
-
 
         # Parameterfilter - Nur bestimmte Ziellaender anzeigen lassen
         #country_name_input = st.sidebar.multiselect(
@@ -176,9 +177,7 @@ def write():
         
         #Link Toggle Map https://plotly.com/python/custom-buttons/
                 # Choropleth Map with colours (Number of asylum applications)
-
-
-
+                
                 
         fig = go.Figure()
 
@@ -199,8 +198,6 @@ def write():
 
 
         ))
-
-
 
 
         fig.add_trace(
@@ -303,10 +300,6 @@ def write():
         st.plotly_chart(fig)
         
         
-#--------------------Slider Steps------------------------------------#
-#https://stackoverflow.com/questions/46777047/how-to-make-a-choropleth-map-with-a-slider-using-plotly
-
-        st.slider("Timeline Years", 2010,  2019)
 
 
 #Datentabelle einblenden
