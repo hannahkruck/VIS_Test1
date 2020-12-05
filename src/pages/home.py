@@ -12,14 +12,14 @@ def write():
     """Used to write the page in the app.py file"""
     with st.spinner("Loading Home ..."):
         #ast.shared.components.title_awesome("")    #Title Awesome Streamlit ausgeblendet
-        
-        st.title("Welcome to the Asylum Seekers EU Information Website")
-        
+
         # read CSV
+        # CSV for Choropleth Map
         df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/mapNew.csv", encoding ="utf8", sep=";")
+        # CSV for Line Map
         df2 = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/mapNew.csv", encoding ="utf8", sep=";")
 
-        # Remove 'overall' and 'Überseeische Länder und Hoheitsgebiet'
+        # Remove 'overall' and 'Überseeische Länder und Hoheitsgebiet' for both CSV
         indexNames = df[ df['destinationCountry'] == 'Overall' ].index
         df.drop(indexNames , inplace=True)
         indexNames = df[ df['homeCountry'] == 'Overall' ].index
@@ -30,7 +30,6 @@ def write():
         indexNames = df[ df['homeCountry'] == 'Überseeische Länder und Hoheitsgebiete' ].index
         df.drop(indexNames , inplace=True)
 
-        # Remove 'overall' and 'Überseeische Länder und Hoheitsgebiet'
         indexNames = df2[ df2['destinationCountry'] == 'Overall' ].index
         df2.drop(indexNames , inplace=True)
         indexNames = df2[ df2['homeCountry'] == 'Overall' ].index
@@ -42,32 +41,95 @@ def write():
         df2.drop(indexNames , inplace=True)
 
 
+        st.title("Welcome to the Asylum Seekers EU Information Website")
 
-        # Berechnung der Anzahl aller Antragssteller in einem Land nach Jahr (diese Daten sind nur von Europa verfügbar)
-        # Speichern in neu erstellten Zeile 'sum'
+        # Select map
+        test = st.sidebar.radio("Map",('Choropleth Map', 'Line Map'))
 
-        df['sum']=df.groupby(['homeCountry','year'])['total'].transform('sum')
+        if test == 'Choropleth Map':
+            showChoropleth = True
+            showLine = False
+        else:
+            showLine = True
+            showChoropleth = False
 
+        # Filter
+        st.sidebar.header("Filters")
+        selectedAge = st.sidebar.multiselect("Select Age", ("All", "under 18", "18 - 34", "35 - 64", "over 64"))
+        selectedGender = st.sidebar.multiselect("Select Gender", ("All", "Male", "Female"))
+
+        # Filter for Choropleth Map
+        st.sidebar.header("Filter for Choropleth Map")
+        # Drop down menu for Choropleth Map Information
+        selectedMapChoropleth = st.sidebar.selectbox("Select Map Information",('Applications to target countries','Applicants by country of origin'))
+
+        # Filter for Line Map
+        st.sidebar.header("Filter for Line Map")
+        # Select type
+        selectedType = st.sidebar.radio("Select type",('Target country','Origin country'))
+
+        if selectedType == 'Target country':
+            selectedType = df.destinationCountry.unique()
+            countryCategory = 'destinationCountry'
+            selectedLon = 'lonDC'
+            selectedLat = 'latDC'
+        else:
+            selectedType = df.homeCountry.unique()
+            countryCategory = 'homeCountry'
+            selectedLon = 'lonHC'
+            selectedLat = 'latHC'
+
+        # Drop down menu for selected country
+        selectedCountryMapLine = st.sidebar.selectbox("Select country",(selectedType))
+
+
+        #year = 2013 #Platzhalter
+
+        # Information for Choropleth Map based on the chosen map information
+        if 'target' in selectedMapChoropleth:
+            selectedMapChoropleth = "destinationCountry"
+            selectedCode = "geoCodeDC"
+            mapColor = "Blues"
+        else:
+            selectedMapChoropleth = "homeCountry"
+            selectedCode = "geoCodeHC"
+            mapColor = "Reds"
+
+
+        # Group the countries by year and sum up the number (total) in a new column sum (df['sum']
+        df['sum']=df.groupby([selectedMapChoropleth,'year'])['total'].transform('sum')
 
         #Datentabelle ausblenden
         #    return df
         # df = load_data()
+        
 
+        # Slider to choose Year for choropleth map
+        year = st.slider("", (int(df["year"].min())),(int(df["year"].max()))) 
+        selected_year = year
+        
+        # Expander to hide and show informations
+        my_expander = st.beta_expander("Click me to choose a specific year and get information about it", expanded=False)
+        with my_expander:
+            selected_year = st.slider('%s' % selected_year, (int(df["year"].min())), (int(df["year"].max())),
+            step=1)
+                    
 
-        # Delete all cells, except one year!
-        year = 2019
-        indexNames = df[ df['year'] != year ].index
+        # Delete all cells, except one year (both maps)
+        indexNames = df[ df['year'] != selected_year ].index
         df.drop(indexNames , inplace=True)
 
-        indexNames = df2[ df2['year'] != year ].index
+        indexNames = df2[ df2['year'] != selected_year ].index
         df2.drop(indexNames , inplace=True)
+
+        # Delete cells with a zero in column 'total' (Line Map)
         indexNames = df2[ df2['total'] == 0 ].index
         df2.drop(indexNames , inplace=True)
         
-        # Auswahl eines bestimmten Ziellandes
-        countryCategory = 'homeCountry'#homeCountry or destinationCountry
-        countryName = 'Syria'
-        indexNames = df2[ df2[countryCategory] != countryName ].index
+        # Information for Line Map
+        #countryCategory = 'homeCountry'#homeCountry or destinationCountry
+        #countryName = 'Syria' #Platzhalter!
+        indexNames = df2[ df2[countryCategory] != selectedCountryMapLine ].index
         df2.drop(indexNames , inplace=True)
 
 
@@ -76,18 +138,6 @@ def write():
         
 
 #----------------Sidebar und Parameter------------------------------
-        st.sidebar.header("Filters")
-        st.sidebar.multiselect("Select Age", ("All", "under 18", "18 - 34", "35 - 64", "over 64"))
-        st.sidebar.multiselect("Select Gender", ("All", "Male", "Female"))
-        
-        st.sidebar.header("Filter for Choropleth Map")
-        st.sidebar.multiselect("Select Map Information",("Applications to target countries", "Applicants by country of origin"))
-        #st.sidebar.multiselect("Select Origin Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
-        #st.sidebar.multiselect("Select Destination Country", ("All", "Belgium", "Bulgaria", "Czech Republic", "Denmark", "Germany", "Estonia", "Ireland", "Greece", "Spain"))
-
-
-
-
 
         # Parameterfilter - Nur bestimmte Ziellaender anzeigen lassen
         #country_name_input = st.sidebar.multiselect(
@@ -134,40 +184,38 @@ def write():
         #Link Toggle Map https://plotly.com/python/custom-buttons/
                 # Choropleth Map with colours (Number of asylum applications)
                 
-              
-        
                 
         fig = go.Figure()
-    
+
+
         fig.add_trace(
             go.Choropleth(
-            locations = df['geoCodeHC'],
+            locations = df[selectedCode],
+            visible=showChoropleth,
             z = df['sum'],
-            text = df['homeCountry'],
-            colorscale = 'Reds',                   #Magenta
+            text = df[selectedMapChoropleth],
+            colorscale = mapColor,                   #Magenta
             autocolorscale=False,
             reversescale=False,
             marker_line_color='darkgray',
             marker_line_width=0.5,
             colorbar_tickprefix = '',
             colorbar_title = 'Number of<br>asylum<br>applications<br>',
-        
-                
-        ))    
 
-        
-    
-    
+
+        ))
+
+
         fig.add_trace(
             go.Scattergeo(
             locationmode = 'country names',
-            lon = df2['lonDC'],
-            lat = df2['latDC'],
+            lon = df2[selectedLon],
+            lat = df2[selectedLat],
             hoverinfo = 'text',
-            text = df2['destinationCountry'],
+            text = df2[countryCategory],
             line = dict(width = 1,color = 'red'),
             opacity = 0.510,
-            visible=False,
+            visible=showLine,
             mode = 'markers',
             marker = dict(
                 size = 3,
@@ -176,8 +224,8 @@ def write():
                     width = 3,
                     color = 'rgba(68, 68, 68, 0)',
                 ))))
-    
-    
+
+
         lons = []
         lats = []
         lons = np.empty(2 * len(df2))
@@ -186,11 +234,11 @@ def write():
         lats = np.empty(2 * len(df2))
         lats[::2] = df2['latDC']
         lats[1::2] = df2['latHC']
-    
+
         fig.add_trace(
             go.Scattergeo(
                 locationmode = 'country names',
-                visible= False,
+                visible= showLine,
                 lon = lons,
                 lat = lats,
                 mode = 'lines',
@@ -198,7 +246,7 @@ def write():
                 opacity = 0.5
             )
         )
-    
+
         fig.update_layout(
             showlegend = True,
             geo = go.layout.Geo(
@@ -211,9 +259,9 @@ def write():
             ),
             height=700,
         )
-        
-        
-        
+
+        # Update figure (Choropleth or Line Map)
+        '''
         fig.update_layout(
             
             updatemenus=[
@@ -236,8 +284,10 @@ def write():
                         
                     ]),
                 )
-            ])        
-    
+            ]) 
+        '''
+
+
         fig.update_layout(
             title_text='Asylum seekers in Europe in the year %s' % year,
             geo=dict(
@@ -245,7 +295,7 @@ def write():
                 showcoastlines=False,
                 projection_type='equirectangular'
             ),
-            
+
             autosize=True,
             width=1500,
             height=1080,
@@ -256,11 +306,7 @@ def write():
         st.plotly_chart(fig)
         
         
-#--------------------Slider Steps------------------------------------#
-#https://stackoverflow.com/questions/46777047/how-to-make-a-choropleth-map-with-a-slider-using-plotly
 
-        st.slider("Timeline Years", 2010,  2019)
 
-        
 #Datentabelle einblenden
     #    st.dataframe(data=df)
