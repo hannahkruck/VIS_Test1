@@ -108,6 +108,12 @@ def write():
         year = st.slider("", (int(df["year"].min())),(int(df["year"].max()))) 
         selected_year = year
         
+        # Expander to hide and show informations
+        my_expander = st.beta_expander("Click me to choose a specific year and get information about it", expanded=False)
+        with my_expander:
+            selected_year = st.slider('%s' % selected_year, (int(df["year"].min())), (int(df["year"].max())),
+            step=1)
+                    
 
         # Delete all cells, except one year (both maps)
         indexNames = df[ df['year'] != selected_year ].index
