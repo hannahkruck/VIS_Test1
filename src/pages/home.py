@@ -126,7 +126,7 @@ def write():
                     elif i == '35 - 64':
                         df['subtotal']=df['subtotal']+df['m35']
                     elif i == 'over 65':
-                        df['subtotal']=df['subtotal']+df['mo65']
+                        df['subtotal']=df['subtotal']+(df['menTotal']-df['mu18']-df['m18']-df['m35'])
             else:
                 df['subtotal'] = df['subtotal']+df['menTotal']
             a = 'subtotal'
@@ -140,7 +140,7 @@ def write():
                     elif i == '35 - 64':
                         df['subtotal']=df['subtotal']+df['m35']+df['f35']
                     elif i == 'over 65':
-                        df['subtotal']=df['subtotal']+df['fo65']+df['mo65']
+                        df['subtotal']=df['subtotal']+df['fo65']+(df['menTotal']-df['mu18']-df['m18']-df['m35'])
                 a = 'subtotal'
             else:
                 a = 'total'
