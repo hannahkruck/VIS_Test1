@@ -15,9 +15,9 @@ def write():
 
         # read CSV
         # CSV for Choropleth Map
-        df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/mapNew.csv", encoding ="utf8", sep=";")
+        df = pd.read_csv("mapNew.csv", encoding ="utf8", sep=";")
         # CSV for Line Map
-        df2 = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/mapNew.csv", encoding ="utf8", sep=";")
+        df2 = pd.read_csv("mapNew.csv", encoding ="utf8", sep=";")
 
         # Remove 'overall' and 'Überseeische Länder und Hoheitsgebiet' for both CSV
         indexNames = df[ df['destinationCountry'] == 'Overall' ].index
@@ -126,7 +126,7 @@ def write():
                     elif i == '35 - 64':
                         df['subtotal']=df['subtotal']+df['m35']
                     elif i == 'over 65':
-                        df['subtotal']=df['subtotal']+(df['menTotal']-df['mu18']-df['m18']-df['m35'])
+                        df['subtotal']=df['subtotal']+df['mo65']
             else:
                 df['subtotal'] = df['subtotal']+df['menTotal']
             a = 'subtotal'
@@ -140,7 +140,7 @@ def write():
                     elif i == '35 - 64':
                         df['subtotal']=df['subtotal']+df['m35']+df['f35']
                     elif i == 'over 65':
-                        df['subtotal']=df['subtotal']+df['fo65']+(df['menTotal']-df['mu18']-df['m18']-df['m35'])
+                        df['subtotal']=df['subtotal']+df['fo65']+df['mo65']
                 a = 'subtotal'
             else:
                 a = 'total'
@@ -179,7 +179,7 @@ def write():
         indexNames = df2[ df2[countryCategory] != selectedCountryMapLine ].index
         df2.drop(indexNames , inplace=True)
 
-        """if selectedGender == 'Female':
+        if selectedGender == 'Female':
             # if an age is selected
             if selectedAge:
                 # selectedAge is a list of strings
@@ -211,9 +211,9 @@ def write():
                 elif i == '35 - 64':
                     indexNames = df2[ df2['m35'] == 0].index
                     df2.drop(indexNames , inplace=True)
-                #elif i == 'over 65':
-                    # indexNames = df2[ df2['mo65'] == 0].index
-                    # df2.drop(indexNames , inplace=True)
+                elif i == 'over 65':
+                    indexNames = df2[ df2['mo65'] == 0].index
+                    df2.drop(indexNames , inplace=True)
             else:
                 indexNames = df2[ df2['menTotal'] == 0].index
                 df2.drop(indexNames , inplace=True)
@@ -235,17 +235,17 @@ def write():
                         df2.drop(indexNames , inplace=True)
                         indexNames = df2[ df2['f35'] == 0].index
                         df2.drop(indexNames , inplace=True)
-                    # elif i == 'over 65':
-                        #indexNames = df2[ df2['mo65'] == 0].index
-                        #df2.drop(indexNames , inplace=True)
-                        #indexNames = df2[ df2['fo65'] == 0].index
-                        #df2.drop(indexNames , inplace=True)
+                    elif i == 'over 65':
+                        indexNames = df2[ df2['mo65'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                        indexNames = df2[ df2['fo65'] == 0].index
+                        df2.drop(indexNames , inplace=True)
             else: # all people are considered
                 indexNames = df2[ df2['total'] == 0 ].index
                 df2.drop(indexNames , inplace=True)
-"""
 
-    
+
+
         st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
         
 
