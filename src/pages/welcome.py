@@ -16,14 +16,20 @@ def write():
 	
 #ast.shared.components.title_awesome("Welcome")      # Titel Awesome_Streamlit ausblenden
 	
-	st.title("Titel")
-	st.header('Header')
-	st.subheader('Subheader')
-	st.text("Text")
+	st.title("Willkommen bei (TOOLNAME)")
+	st.header('"TOOLNAME" ist ein ...')
+	st.subheader('Woher stammen die Daten? ')
+	st.text("Die Daten  stammen aus der ... Datenbank...")
 
 	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
-	my_expander = st.beta_expander("Click me to see what happens", expanded=False)
+	my_expander = st.beta_expander("Wer ist die Zielgruppe?", expanded=False)
 	with my_expander:
+		infoText = st.text("Experten? Laien?")
+
+
+	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
+	my_expander1 = st.beta_expander("Click me to see what happens", expanded=False)
+	with my_expander1:
 		#selectedRadio = st.radio("Radiobuttons", ("1", "2", "3"))
 		#my_expander = st.sidebar((selectedRadio))
 		selectYear = st.slider("Testslider   ", 2010, 2019)
