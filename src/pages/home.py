@@ -15,9 +15,9 @@ def write():
 
         # read CSV
         # CSV for Choropleth Map
-        df = pd.read_csv("mapNew.csv", encoding ="utf8", sep=";")
+        df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/mapNew.csv", encoding ="utf8", sep=";")
         # CSV for Line Map
-        df2 = pd.read_csv("mapNew.csv", encoding ="utf8", sep=";")
+        df2 = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/mapNew.csv", encoding ="utf8", sep=";")
 
         # Remove 'overall' and 'Überseeische Länder und Hoheitsgebiet' for both CSV
         indexNames = df[ df['destinationCountry'] == 'Overall' ].index
@@ -42,6 +42,7 @@ def write():
 
 
         st.title("Welcome to the Asylum Seekers EU Information Website")
+
 
         # Select map
         selectedMapType = st.sidebar.radio("Map",('Choropleth Map', 'Line Map'))
@@ -247,7 +248,49 @@ def write():
 
 
         st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
-        
+        #st.markdown(f'<span title="hoveer">ich bin ein test</span>',unsafe_allow_html=True)
+        st.subheader('Asylum seekers in Europe in the year %s' % year)
+        st.markdown('''
+        <!-- https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip_transition & https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip_right-->
+        <style>
+            .tooltip {
+              position: relative;
+              display: inline-block;
+            }
+            
+            .tooltip .tooltiptext {
+              visibility: hidden;
+              width: 40vw;
+              background-color: black;
+              color: #fff;
+              text-align: center;
+              border-radius: 6px;
+              padding: 5px;
+              font-size:0.8rem;
+              
+              /* Position the tooltip */
+              position: absolute;
+              z-index: 1;
+              top: -5px;
+              left: 105%;
+              
+              opacity: 0;
+              transition: opacity 0.8s;
+            }
+            
+            .tooltip:hover .tooltiptext {
+              visibility: visible;
+              opacity: 1;
+            }
+        </style>
+        ''', unsafe_allow_html=True)
+        st.markdown('''
+        <div class="tooltip">&#8505
+        <span class="tooltiptext">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
+        sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
+        At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, 
+        no sea takimata sanctus est Lorem ipsum dolor sit amet. </span></div>
+        ''', unsafe_allow_html=True)
 
 #----------------Sidebar und Parameter------------------------------
 
@@ -295,8 +338,8 @@ def write():
         
         #Link Toggle Map https://plotly.com/python/custom-buttons/
                 # Choropleth Map with colours (Number of asylum applications)
-                
-                
+
+
         fig = go.Figure()
 
 
@@ -401,7 +444,6 @@ def write():
 
 
         fig.update_layout(
-            title_text='Asylum seekers in Europe in the year %s' % year,
             geo=dict(
                 showframe=False,            # Map Rahmen ausgeblendet
                 showcoastlines=False,
@@ -411,13 +453,14 @@ def write():
             autosize=True,
             width=1500,
             height=1080,
+
         )
         
         
         
         st.plotly_chart(fig)
-        
-        
+
+
 
 
 #Datentabelle einblenden
