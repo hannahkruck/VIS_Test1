@@ -96,7 +96,6 @@ def write():
             selectedCode = 'geoCodeHC'
             mapColor = 'Reds'
 
-
         # Information for Choropleth Map based on the chosen gender and age
         df['subtotal']=0
         # Check selected gender
@@ -249,24 +248,29 @@ def write():
 
         st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
         #st.markdown(f'<span title="hoveer">ich bin ein test</span>',unsafe_allow_html=True)
-        st.subheader('Asylum seekers in Europe in the year %s' % year)
+        st.subheader('Asylum seekers in Europe in the year %s' % selected_year)
+
+        # Markdown for i-Button
+        # CSS and HTML Code
         st.markdown('''
         <!-- https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip_transition & https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip_right-->
         <style>
             .tooltip {
               position: relative;
               display: inline-block;
+              font-size:1.6rem;
+              
             }
             
             .tooltip .tooltiptext {
               visibility: hidden;
-              width: 40vw;
-              background-color: black;
-              color: #fff;
-              text-align: center;
+              width: 50vw;
+              background-color: #f1f3f7;
+              color: #262730;
+              text-align: justify;
               border-radius: 6px;
               padding: 5px;
-              font-size:0.8rem;
+              font-size:0.9rem;
               
               /* Position the tooltip */
               position: absolute;
@@ -284,12 +288,14 @@ def write():
             }
         </style>
         ''', unsafe_allow_html=True)
+
+        # Text for tooltip
         st.markdown('''
-        <div class="tooltip">&#8505
-        <span class="tooltiptext">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-        sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
-        At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, 
-        no sea takimata sanctus est Lorem ipsum dolor sit amet. </span></div>
+        <div class="tooltip">&#x24D8
+        <span class="tooltiptext">The Choropleth Map shows the number of asylum applications per country in Europe and the number of refugees per country worldwide for the selected year (see filter 'Select Map Information' for Choropleth Map).
+        <br>The Line Map shows the routes of the refugees depending on the selected type. The type 'target country' shows from which countries the asylum seekers originate based on a specific target country. The type 'origin country' indicates where the asylum seekers are fleeing to from a specific country of origin.
+        <br><br>The visualisations can be adjusted using the filters. It should be noted that due to the overview, unknown data as well as data on overseas countries and territories have been removed from the dataset.  In addition, for a few countries only temporary data has been provided.
+        </span></div>
         ''', unsafe_allow_html=True)
 
 #----------------Sidebar und Parameter------------------------------
@@ -412,7 +418,7 @@ def write():
                 landcolor = 'rgb(243, 243, 243)',
                 countrycolor = 'rgb(105,105,105)',
             ),
-            height=700,
+
         )
 
         # Update figure (Choropleth or Line Map)
@@ -451,14 +457,18 @@ def write():
             ),
 
             autosize=True,
-            width=1500,
-            height=1080,
-
+            #height=800,
+            margin=dict(
+                l=2,
+                r=2,
+                b=2,
+                t=2,
+            ),
         )
         
         
         
-        st.plotly_chart(fig)
+        st.plotly_chart(fig,use_container_width=True,config=dict(displayModeBar=False))
 
 
 
