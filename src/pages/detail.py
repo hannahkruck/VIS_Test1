@@ -14,18 +14,74 @@ def write():
     """Writes content to the app"""
     #ast.shared.components.title_awesome("Detail")      # Titel Awesome_Streamlit
     
-    #Titel der Seite
+    # Page title
     st.title("Detailed view")
 #   st.header('Hier kann ein Text rein')
     
-    # lese CSV
+    # read CSV
+    # CSV for Pie Chart
     df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart.csv", encoding ="utf8", sep=";")
     
+
+    #-----------------Markdown info-----------------
+    
+    st.markdown('''
+    <!-- https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip_transition & https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip_right-->
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            font-size:1.6rem;
+            
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 50vw;
+            background-color: #f1f3f7;
+            color: #262730;
+            text-align: justify;
+            border-radius: 6px;
+            padding: 5px;
+            font-size:0.9rem;
+            
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+            top: -5px;
+            left: 105%;
+            
+            opacity: 0;
+            transition: opacity 0.8s;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+    ''', unsafe_allow_html=True)
+
+    st.markdown('''
+        <div class="tooltip">&#x24D8
+        <span class="tooltiptext">
+        <b>Pie Chart</b><br>
+        The pie chart represents the age distribution.
+        <br><br>
+        <b>Sankey Diagram</b><br>
+        The Sankey diagram shows the distribution of asylum applications from the different countries of origin (left) to the different countries of destination (right).
+        top 10 destination countries of a year are illustrated here.
+        <br><br>
+        </span></div>
+        ''', unsafe_allow_html=True)  
+
+
+    # Layout setting of the page 
     c1, c2 = st.beta_columns((1, 1))
     container = st.beta_container()
     st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
-    
 
+    
 #-------------------------Create Sankey diagram-------------------------------
 #https://www.geeksforgeeks.org/sankey-diagram-using-plotly-in-python/
 #https://coderzcolumn.com/tutorials/data-science/how-to-plot-sankey-diagram-in-python-jupyter-notebook-holoviews-and-plotly#2
