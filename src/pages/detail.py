@@ -80,31 +80,35 @@ def write():
     node = dict(label = label, pad=50, thickness=5, color=color_node)
     layout = dict(
             #"Top 10 Verteilung der Asylanträge eines Landes auf die verschiedenen Zielländer"
-            title='Top 10 Distribution of a Countries Asylum Applications among the various Countries of Destination  %s' % yearVar,
-            height = 700,                   
-            font = dict(size = 10),)
+            title= 'Top 10 Distribution of a Countries Asylum Applications among the various <br>Countries of Destination  %s' % yearVar,
+            height = 800,                   
+            font = dict(size = 11),)
     data = go.Sankey(link = link, node=node)
     
     # Eigenschaften Sanky Diagram Layout 
-    fig1 = go.Figure(data, layout= layout)
+    fig2 = go.Figure(data, layout= layout)
     
 #------------Create pie chart-------------------
-
-    # Variabel fuer Pie Chart
-    a = 2010
-
-    # Daten in Liste übergeben
+    
+    # Transfer data to list
     labels = df['year'].tolist()
     values = df['2019'].tolist()
-    #header = st.header('Age Distribution of Asylum Seekers Worldwide %s' % a)
-    
-    
-    fig2 = go.Figure(data=[go.Pie(
+    layout = dict( 
+        height = 600,       
+        font = dict(size = 11),            
+        title='Age Distribution of Asylum Seekers Worldwide %s' % yearVar)
+    data = go.Pie(labels=labels, values=values)
+
+    # Create pie figure
+    fig1 = go.Figure(data=[go.Pie(
         labels=labels, 
         values=values, 
         textinfo='label+percent', 
-        insidetextorientation='radial', 
-        title='Age Distribution of Asylum Seekers Worldwide %s' % a)])
+        insidetextorientation='radial',)])
+    
+    # Features Pie Diagram Layout
+    fig1 = go.Figure(data, layout=layout)
+
     
 
 #------------Create Timeline Years-------------------
@@ -172,9 +176,9 @@ def write():
     #st.plotly_chart(fig1)
     #second chart
     with c1:
-        st.plotly_chart(fig2)
-    with c2:
         st.plotly_chart(fig1)
+    with c2:
+        st.plotly_chart(fig2)
     with container:
         st.plotly_chart(fig3)
 
