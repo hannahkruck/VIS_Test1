@@ -292,8 +292,10 @@ def write():
         # Text for tooltip
         st.markdown('''
         <div class="tooltip">&#x24D8
-        <span class="tooltiptext">The Choropleth Map shows the number of asylum applications per country in Europe and the number of refugees per country worldwide for the selected year (see filter 'Select Map Information' for Choropleth Map).
-        <br>The Line Map shows the routes of the refugees depending on the selected type. The type 'target country' shows from which countries the asylum seekers originate based on a specific target country. The type 'origin country' indicates where the asylum seekers are fleeing to from a specific country of origin.
+        <span class="tooltiptext">
+        <b>Choropleth Map</b><br>The Choropleth Map shows the number of asylum applications per country in Europe and the number of refugees per country worldwide for the selected year (see filter 'Select Map Information' for Choropleth Map).
+        <br><br>
+        <b>Line Map</b><br>The Line Map presents the routes of the refugees depending on the selected type. The type 'target country' shows from which countries the asylum seekers originate based on a specific target country. The type 'origin country' indicates where the asylum seekers are fleeing to from a specific country of origin.
         <br><br>The visualisations can be adjusted using the filters. It should be noted that due to the overview, unknown data as well as data on overseas countries and territories have been removed from the dataset.  In addition, for a few countries only temporary data has been provided.
         </span></div>
         ''', unsafe_allow_html=True)
@@ -459,10 +461,10 @@ def write():
             autosize=True,
             #height=800,
             margin=dict(
-                l=2,
-                r=2,
-                b=2,
-                t=2,
+                l=0,
+                r=0,
+                b=0,
+                t=0,
             ),
         )
         

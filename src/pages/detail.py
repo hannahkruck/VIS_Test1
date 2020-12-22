@@ -66,12 +66,13 @@ def write():
         <div class="tooltip">&#x24D8
         <span class="tooltiptext">
         <b>Pie Chart</b><br>
-        The pie chart represents the age distribution.
+        The pie chart represents the age distribution worldwide for the selected year.
         <br><br>
         <b>Sankey Diagram</b><br>
         The Sankey diagram shows the distribution of asylum applications from the different countries of origin (left) to the different countries of destination (right).
-        top 10 destination countries of a year are illustrated here.
+        Top 10 destination countries of a year are illustrated here.
         <br><br>
+        It should be noted that due to the overview, unknown data as well as data on overseas countries and territories have been removed from the dataset.  In addition, for a few countries only temporary data has been provided.
         </span></div>
         ''', unsafe_allow_html=True)  
 
