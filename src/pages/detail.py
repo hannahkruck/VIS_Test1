@@ -114,27 +114,30 @@ def write():
     target = show_df['Target'].dropna(axis=0, how='any')
     value = show_df['Value'].dropna(axis=0, how='any')
 
-    #color
+        #color
     color_node = [
-    #Source
-    '#2e8b57', '#cd8162', '#00e5ee', '#458b74', '#C37522', '#2270C3', '#ff6a6a', '#9370db', '#CDC037', '#787878',
-    #Target
+    #Source Syria, Afghanistan, Venezuela, Irak, Colombia, Pakistan, Türkei, Nigeria, Iran, Albania
+    '#40bf77', '#93beec', '#1ff91f', '#cd8162', '#a6a6a6', '#80e5ff', '#b299e6', '#ff33ff', '#CDC037', '#ff6a6a',
+    #Target 
     '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641']
+    
     color_link = [
-    '#4ab24a', '#4ab24a', '#4ab24a', '#4ab24a', '#4ab24a', '#4ab24a', '#4ab24a', '#4ab24a', '#4ab24a', '#4ab24a',
-    '#ce8161', '#ce8161', '#ce8161', '#ce8161', '#ce8161', '#ce8161', '#ce8161', '#ce8161', '#ce8161', '#ce8161', 
-    '#00e5ee', '#00e5ee', '#00e5ee', '#00e5ee', '#00e5ee', '#00e5ee', '#00e5ee', '#00e5ee', '#00e5ee', '#00e5ee',
-    '#458a73', '#458a73', '#458a73', '#458a73', '#458a73', '#458a73', '#458a73', '#458a73', '#458a73', '#458a73', 
-    '#dd8c39', '#dd8c39', '#dd8c39', '#dd8c39', '#dd8c39', '#dd8c39', '#dd8c39', '#dd8c39', '#dd8c39', '#dd8c39',
-    '#398add', '#398add', '#398add', '#398add', '#398add', '#398add', '#398add', '#398add', '#398add', '#398add',
-    '#ff6a6a', '#ff6a6a', '#ff6a6a', '#ff6a6a', '#ff6a6a', '#ff6a6a', '#ff6a6a', '#ff6a6a', '#ff6a6a', '#ff6a6a', 
-    '#9270da', '#9270da', '#9270da', '#9270da', '#9270da', '#9270da', '#9270da', '#9270da', '#9270da', '#9270da', 
-    '#ffd700', '#ffd700', '#ffd700', '#ffd700', '#ffd700', '#ffd700', '#ffd700', '#ffd700', '#ffd700', '#ffd700', 
-    '#787878', '#787878', '#787878', '#787878', '#787878', '#787878', '#787878', '#787878', '#787878', '#787878']
+    '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', 
+    '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', 
+    '#bef4be', '#bef4be', '#bef4be', '#bef4be', '#bef4be', '#bef4be', '#bef4be', '#bef4be', '#bef4be', '#bef4be',
+    '#e7c1b1', '#e7c1b1', '#e7c1b1', '#e7c1b1', '#e7c1b1', '#e7c1b1', '#e7c1b1', '#e7c1b1', '#e7c1b1', '#e7c1b1',
+    '#cccccc', '#cccccc', '#cccccc', '#cccccc', '#cccccc', '#cccccc', '#cccccc', '#cccccc', '#cccccc', '#cccccc', 
+    '#80e5ff', '#80e5ff', '#80e5ff', '#80e5ff', '#80e5ff', '#80e5ff', '#80e5ff', '#80e5ff', '#80e5ff', '#80e5ff',  
+    '#c2adeb', '#c2adeb', '#c2adeb', '#c2adeb', '#c2adeb', '#c2adeb', '#c2adeb', '#c2adeb', '#c2adeb', '#c2adeb',
+    '#ffccff', '#ffccff', '#ffccff', '#ffccff', '#ffccff', '#ffccff', '#ffccff', '#ffccff', '#ffccff', '#ffccff', 
+    '#ffec80', '#ffec80', '#ffec80', '#ffec80', '#ffec80', '#ffec80', '#ffec80', '#ffec80', '#ffec80', '#ffec80', 
+    '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc',]  
 
     # data to dict, dict to sankey
     link = dict(source = source, target = target, value = value, color=color_link)
-    node = dict(label = label, pad=50, thickness=5, color=color_node)
+    node = dict(label = label, pad= 25, thickness=10, color=color_node)
+
+
     layout = dict(
             #"Top 10 Verteilung der Asylanträge eines Landes auf die verschiedenen Zielländer"
             title= 'Top 10 Distribution of a Countries Asylum Applications among the various <br>Countries of Destination  %s' % yearVar,
