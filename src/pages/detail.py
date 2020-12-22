@@ -232,11 +232,11 @@ def write():
     #st.plotly_chart(fig1)
     #second chart
     with c1:
-        st.plotly_chart(fig1)
+        st.plotly_chart(fig1, use_container_width=True)
     with c2:
-        st.plotly_chart(fig2)
+        st.plotly_chart(fig2, use_container_width=True)
     with container:
-        st.plotly_chart(fig3)
+        st.plotly_chart(fig3, use_container_width=True)
 
 if __name__ == "__main__":
     write()
