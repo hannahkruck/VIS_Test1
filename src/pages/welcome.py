@@ -46,7 +46,8 @@ def write():
 	st.markdown(html, unsafe_allow_html=True)
 	
 	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
-	my_expander_one = st.beta_expander("Woher stammen die Daten?", expanded=False)
+	my_expander_one = st.beta_expander("Where does the data come from?", expanded=False)
+	
 	with my_expander_one:
 		html_one = """ 
 			<p> Die Daten stammen aus der ... </p>
@@ -55,19 +56,28 @@ def write():
 		st.markdown(html_one, unsafe_allow_html=True)
 
 
+	
 	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
-	my_expander_two = st.beta_expander("Wer ist die Zielgruppe?", expanded=False)
+	my_expander_two = st.beta_expander("Implementation of the visualisation tool", expanded=False)
+
 	with my_expander_two:
 		html_two = """ 
-			<p> Die Zielgruppe ... (Experten, Laien?) </p>"""
+			<p> The visualisation tool was implemented with the open source framework "Streamlit". 
+			Streamlit is both a library and a framework for Python. 
+			Streamlit allows users to create and publish interactive web apps with a graphical user interface and data visualisation. 
+			<br><br>The advantage of Streamlit is that no front-end experience is required and we can create interactive graphical user interfaces and visualisations using only the Python programming language. Probably the strongest point in choosing Streamlit is the time aspect. Because with Streamlit we can invest more time in processing and visualising the data than in dealing with the front end. <br>
+			<br>Furthermore, it is possible to integrate various libraries in Streamlit in order to create diagrams.
+			For the visualisation of our diagrams, libraries such as Plotly and Pandas were used.
+			</p>"""
+			
 		st.markdown(html_two, unsafe_allow_html=True)
 
 
 	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
-	my_expander_three = st.beta_expander("Umsetzung des Visualisierungstools", expanded=False)
+	my_expander_three = st.beta_expander("Expand3", expanded=False)
 	with my_expander_three:
 		html_three = """ 
-			<p> Mit Streamlit, Bibliotheken, HTML, CSS </p>"""
+			<p> Expand3</p>"""
 		st.markdown(html_three, unsafe_allow_html=True)
 
 	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
@@ -76,17 +86,20 @@ def write():
 		html_four = """ 
 			<p> Inhalt </p>"""
 		st.markdown(html_four, unsafe_allow_html=True)
+
+	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
+	my_expander_five = st.beta_expander("About us", expanded=False)
+	with my_expander_five:
+		html_five = """ 
+			<p> Inhalt </p>"""
+		st.markdown(html_five, unsafe_allow_html=True)
 		
-		
+	
 	c1, c2 = st.beta_columns((1,1))
 	container = st.beta_container()
 	st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
-	
-	c1.info('Ich bin eine Info message Spalte1')
-	#c1.text("Ich bin ein Text Spalte1")
-	
-	c2.success("Ich bin wichtig Spalte2")
-
+			
+				
 	
 
 				
