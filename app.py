@@ -4,7 +4,7 @@ import streamlit as st
 import awesome_streamlit as ast
 import src.pages.home
 import src.pages.detail
-
+import src.pages.welcome
 import streamlit as st
 import plotly.graph_objects as go
 import pandas as pd
@@ -17,6 +17,7 @@ st.set_page_config(layout="wide")
 ast.core.services.other.set_logging_format()
 
 PAGES = {
+    "Welcome": src.pages.welcome,
     "Home": src.pages.home,
     "Detail": src.pages.detail,
 }
