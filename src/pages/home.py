@@ -43,10 +43,11 @@ def write():
 
         st.title("Welcome to the Asylum Seekers EU Information Website")
 
-        # Select map
-        test = st.sidebar.radio("Map",('Choropleth Map', 'Line Map'))
 
-        if test == 'Choropleth Map':
+        # Select map
+        selectedMapType = st.sidebar.radio("Map",('Choropleth Map', 'Line Map'))
+
+        if selectedMapType == 'Choropleth Map':
             showChoropleth = True
             showLine = False
         else:
@@ -55,8 +56,8 @@ def write():
 
         # Filter
         st.sidebar.header("Filters")
-        selectedAge = st.sidebar.multiselect("Select Age", ("All", "under 18", "18 - 34", "35 - 64", "over 64"))
-        selectedGender = st.sidebar.multiselect("Select Gender", ("All", "Male", "Female"))
+        selectedAge = st.sidebar.multiselect("Select Age", ("under 18", "18 - 34", "35 - 64", "over 65"))
+        selectedGender = st.sidebar.selectbox("Select Gender", ("All", "Male", "Female"))
 
         # Filter for Choropleth Map
         st.sidebar.header("Filter for Choropleth Map")
@@ -87,33 +88,81 @@ def write():
 
         # Information for Choropleth Map based on the chosen map information
         if 'target' in selectedMapChoropleth:
-            selectedMapChoropleth = "destinationCountry"
-            selectedCode = "geoCodeDC"
-            mapColor = "Blues"
+            selectedMapChoropleth = 'destinationCountry'
+            selectedCode = 'geoCodeDC'
+            mapColor = 'Blues'
         else:
-            selectedMapChoropleth = "homeCountry"
-            selectedCode = "geoCodeHC"
-            mapColor = "Reds"
+            selectedMapChoropleth = 'homeCountry'
+            selectedCode = 'geoCodeHC'
+            mapColor = 'Reds'
 
+        # Information for Choropleth Map based on the chosen gender and age
+        df['subtotal']=0
+        # Check selected gender
+        if selectedGender == 'Female':
+            # if an age is selected
+            if selectedAge:
+                # selectedAge is a list of strings
+                # Therefore, we have to check every entry in the list and sum up partial results in new column subtotal
+                for i in selectedAge:
+                    if i == 'under 18':
+                        df['subtotal']=df['subtotal']+df['fu18']
+                    elif i == '18 - 34':
+                        df['subtotal']=df['subtotal']+df['f18']
+                    elif i == '35 - 64':
+                        df['subtotal']=df['subtotal']+df['f35']
+                    elif i == 'over 65':
+                        df['subtotal']=df['subtotal']+df['fo65']
+            else: # no age is selected, that means the user wants to see all women
+                df['subtotal'] = df['subtotal']+df['womenTotal']
+            a = 'subtotal'
+        elif selectedGender == 'Male':
+            if selectedAge:
+                for i in selectedAge:
+                    if i == 'under 18':
+                        df['subtotal']=df['subtotal']+df['mu18']
+                    elif i == '18 - 34':
+                        df['subtotal']=df['subtotal']+df['m18']
+                    elif i == '35 - 64':
+                        df['subtotal']=df['subtotal']+df['m35']
+                    elif i == 'over 65':
+                        df['subtotal']=df['subtotal']+df['mo65']
+            else:
+                df['subtotal'] = df['subtotal']+df['menTotal']
+            a = 'subtotal'
+        else: # if no gender is selected, that means the user wants to see all
+            if selectedAge:
+                for i in selectedAge:
+                    if i == 'under 18':
+                        df['subtotal']=df['subtotal']+df['mu18']+df['fu18']
+                    elif i == '18 - 34':
+                        df['subtotal']=df['subtotal']+df['m18']+df['f18']
+                    elif i == '35 - 64':
+                        df['subtotal']=df['subtotal']+df['m35']+df['f35']
+                    elif i == 'over 65':
+                        df['subtotal']=df['subtotal']+df['fo65']+df['mo65']
+                a = 'subtotal'
+            else:
+                a = 'total'
 
         # Group the countries by year and sum up the number (total) in a new column sum (df['sum']
-        df['sum']=df.groupby([selectedMapChoropleth,'year'])['total'].transform('sum')
+        df['sum']=df.groupby([selectedMapChoropleth,'year'])[a].transform('sum')
 
         #Datentabelle ausblenden
         #    return df
         # df = load_data()
-        
+
 
         # Slider to choose Year for choropleth map
-        year = st.slider("", (int(df["year"].min())),(int(df["year"].max()))) 
+        year = st.slider("", (int(df["year"].min())),(int(df["year"].max())))
         selected_year = year
-        
+
         # Expander to hide and show informations
-        my_expander = st.beta_expander("Click me to choose a specific year and get information about it", expanded=False)
+        """my_expander = st.beta_expander("Click me to choose a specific year and get information about it", expanded=False)
         with my_expander:
             selected_year = st.slider('%s' % selected_year, (int(df["year"].min())), (int(df["year"].max())),
-            step=1)
-                    
+            step=1)"""
+
 
         # Delete all cells, except one year (both maps)
         indexNames = df[ df['year'] != selected_year ].index
@@ -122,20 +171,134 @@ def write():
         indexNames = df2[ df2['year'] != selected_year ].index
         df2.drop(indexNames , inplace=True)
 
-        # Delete cells with a zero in column 'total' (Line Map)
-        indexNames = df2[ df2['total'] == 0 ].index
-        df2.drop(indexNames , inplace=True)
-        
+
         # Information for Line Map
-        #countryCategory = 'homeCountry'#homeCountry or destinationCountry
-        #countryName = 'Syria' #Platzhalter!
+
+        # countryCategory = homeCountry or destinationCountry
+        # selectedCountryMapLine is the selected country for the map line (for example Syria (homeCountry))
         indexNames = df2[ df2[countryCategory] != selectedCountryMapLine ].index
         df2.drop(indexNames , inplace=True)
 
+        if selectedGender == 'Female':
+            # if an age is selected
+            if selectedAge:
+                # selectedAge is a list of strings
+                # Therefore, we have to check every entry in the list and delete the row if the value in the column for the age is null
+                for i in selectedAge:
+                    if i == 'under 18':
+                        indexNames = df2[ df2['fu18'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                    elif i == '18 - 34':
+                        indexNames = df2[ df2['f18'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                    elif i == '35 - 64':
+                        indexNames = df2[ df2['f35'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                    elif i == 'over 65':
+                        indexNames = df2[ df2['fo65'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+            else:
+                indexNames = df2[ df2['womenTotal'] == 0].index
+                df2.drop(indexNames , inplace=True)
+        elif selectedGender == 'Male':
+            for i in selectedAge:
+                if i == 'under 18':
+                    indexNames = df2[ df2['mu18'] == 0].index
+                    df2.drop(indexNames , inplace=True)
+                elif i == '18 - 34':
+                    indexNames = df2[ df2['m18'] == 0].index
+                    df2.drop(indexNames , inplace=True)
+                elif i == '35 - 64':
+                    indexNames = df2[ df2['m35'] == 0].index
+                    df2.drop(indexNames , inplace=True)
+                elif i == 'over 65':
+                    indexNames = df2[ df2['mo65'] == 0].index
+                    df2.drop(indexNames , inplace=True)
+            else:
+                indexNames = df2[ df2['menTotal'] == 0].index
+                df2.drop(indexNames , inplace=True)
+        else: # if no gender is selected, that means the user wants to see all
+            if selectedAge:
+                for i in selectedAge:
+                    if i == 'under 18':
+                        indexNames = df2[ df2['mu18'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                        indexNames = df2[ df2['fu18'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                    elif i == '18 - 34':
+                        indexNames = df2[ df2['m18'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                        indexNames = df2[ df2['f18'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                    elif i == '35 - 64':
+                        indexNames = df2[ df2['m35'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                        indexNames = df2[ df2['f35'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                    elif i == 'over 65':
+                        indexNames = df2[ df2['mo65'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                        indexNames = df2[ df2['fo65'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+            else: # all people are considered
+                indexNames = df2[ df2['total'] == 0 ].index
+                df2.drop(indexNames , inplace=True)
 
-    
+
+
         st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
-        
+        #st.markdown(f'<span title="hoveer">ich bin ein test</span>',unsafe_allow_html=True)
+        st.subheader('Asylum seekers in Europe in the year %s' % selected_year)
+
+        # Markdown for i-Button
+        # CSS and HTML Code
+        st.markdown('''
+        <!-- https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip_transition & https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip_right-->
+        <style>
+            .tooltip {
+              position: relative;
+              display: inline-block;
+              font-size:1.6rem;
+              
+            }
+            
+            .tooltip .tooltiptext {
+              visibility: hidden;
+              width: 50vw;
+              background-color: #f1f3f7;
+              color: #262730;
+              text-align: justify;
+              border-radius: 6px;
+              padding: 5px;
+              font-size:0.9rem;
+              
+              /* Position the tooltip */
+              position: absolute;
+              z-index: 1;
+              top: -5px;
+              left: 105%;
+              
+              opacity: 0;
+              transition: opacity 0.8s;
+            }
+            
+            .tooltip:hover .tooltiptext {
+              visibility: visible;
+              opacity: 1;
+            }
+        </style>
+        ''', unsafe_allow_html=True)
+
+        # Text for tooltip
+        st.markdown('''
+        <div class="tooltip">&#x24D8
+        <span class="tooltiptext">
+        <b>Choropleth Map</b><br>The Choropleth Map shows the number of asylum applications per country in Europe and the number of refugees per country worldwide for the selected year (see filter 'Select Map Information' for Choropleth Map).
+        <br><br>
+        <b>Line Map</b><br>The Line Map presents the routes of the refugees depending on the selected type. The type 'target country' shows from which countries the asylum seekers originate based on a specific target country. The type 'origin country' indicates where the asylum seekers are fleeing to from a specific country of origin.
+        <br><br>The visualisations can be adjusted using the filters. It should be noted that due to the overview, unknown data as well as data on overseas countries and territories have been removed from the dataset.  In addition, for a few countries only temporary data has been provided.
+        </span></div>
+        ''', unsafe_allow_html=True)
 
 #----------------Sidebar und Parameter------------------------------
 
@@ -183,8 +346,8 @@ def write():
         
         #Link Toggle Map https://plotly.com/python/custom-buttons/
                 # Choropleth Map with colours (Number of asylum applications)
-                
-                
+
+
         fig = go.Figure()
 
 
@@ -257,7 +420,7 @@ def write():
                 landcolor = 'rgb(243, 243, 243)',
                 countrycolor = 'rgb(105,105,105)',
             ),
-            height=700,
+
         )
 
         # Update figure (Choropleth or Line Map)
@@ -289,7 +452,6 @@ def write():
 
 
         fig.update_layout(
-            title_text='Asylum seekers in Europe in the year %s' % year,
             geo=dict(
                 showframe=False,            # Map Rahmen ausgeblendet
                 showcoastlines=False,
@@ -297,15 +459,20 @@ def write():
             ),
 
             autosize=True,
-            width=1500,
-            height=1080,
+            #height=800,
+            margin=dict(
+                l=0,
+                r=0,
+                b=0,
+                t=0,
+            ),
         )
         
         
         
-        st.plotly_chart(fig)
-        
-        
+        st.plotly_chart(fig,use_container_width=True,config=dict(displayModeBar=False))
+
+
 
 
 #Datentabelle einblenden
