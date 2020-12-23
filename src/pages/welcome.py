@@ -62,12 +62,15 @@ def write():
 
 	with my_expander_two:
 		html_two = """ 
-			<p> The visualisation tool was implemented with the open source framework "Streamlit". 
+			<p> The visualisation tool was implemented with the open source framework <a target="_blank" href="https://www.streamlit.io"><b> Streamlit</b></a>.<br> 
 			Streamlit is both a library and a framework for Python. 
-			Streamlit allows users to create and publish interactive web apps with a graphical user interface and data visualisation. 
+			It allows users to create and publish interactive web apps with a graphical user interface and data visualisation. 
 			<br><br>The advantage of Streamlit is that no front-end experience is required and we can create interactive graphical user interfaces and visualisations using only the Python programming language. Probably the strongest point in choosing Streamlit is the time aspect. Because with Streamlit we can invest more time in processing and visualising the data than in dealing with the front end. <br>
 			<br>Furthermore, it is possible to integrate various libraries in Streamlit in order to create diagrams.
-			For the visualisation of our diagrams, libraries such as Plotly and Pandas were used.
+			For the visualisation of our diagrams and filter options, libraries such as Streamlit, Plotly and Pandas were used:
+			<br>
+				<ul>
+					<li>Choropleth and Line Maps</li>
 			</p>"""
 			
 		st.markdown(html_two, unsafe_allow_html=True)
