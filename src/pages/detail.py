@@ -135,13 +135,13 @@ def write():
 
     # data to dict, dict to sankey
     link = dict(source = source, target = target, value = value, color=color_link)
-    node = dict(label = label, pad= 25, thickness=10, color=color_node)
+    node = dict(label = label, pad= 20, thickness=10, color=color_node)
 
 
     layout = dict(
             #"Top 10 Verteilung der Asylanträge eines Landes auf die verschiedenen Zielländer"
             title= 'Top 10 Distribution of a Countries Asylum Applications among the various <br>Countries of Destination  %s' % yearVar,
-            height = 800,                   
+            height = 700,                   
             font = dict(size = 11),)
     data = go.Sankey(link = link, node=node)
     
