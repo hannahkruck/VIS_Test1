@@ -137,23 +137,25 @@ def write():
     node = dict(label = label, pad=50, thickness=5, color=color_node)
     layout = dict(
             #"Top 10 Verteilung der Asylanträge eines Landes auf die verschiedenen Zielländer"
-            title= 'Top 10 Distribution of a Countries Asylum Applications among the various <br>Countries of Destination  %s' % yearVar,
+            #title= 'Top 10 Distribution of a Countries Asylum Applications among the various <br>Countries of Destination  %s' % yearVar,
             height = 800,                   
             font = dict(size = 11),)
     data = go.Sankey(link = link, node=node)
     
     # Eigenschaften Sanky Diagram Layout 
     fig2 = go.Figure(data, layout= layout)
+
     
+   
 #------------Create pie chart-------------------
-    
     # Transfer data to list
     labels = df['year'].tolist()
     values = df['2019'].tolist()
     layout = dict( 
         height = 600,       
         font = dict(size = 11),            
-        title='Age Distribution of Asylum Seekers Worldwide %s' % yearVar)
+        #title='Age Distribution of Asylum Seekers Worldwide %s'
+        )
     data = go.Pie(labels=labels, values=values)
 
     # Create pie figure
@@ -166,79 +168,50 @@ def write():
     # Features Pie Diagram Layout
     fig1 = go.Figure(data, layout=layout)
 
-    
-
-#------------Create Timeline Years-------------------
-    # Create figure 3
-    fig3 = go.Figure()
-    
-    # Add traces, one for each slider step
-    for step in np.arange(10):                                  # Zeitrahl Schritte von 2010 bis 2019
-        fig3.add_trace(
-            go.Scatter(
-                visible=False,
-                line=dict(color='LightSkyBlue', width=3),       # Zeitstrahl Linie
-                
-                name="𝜈 = " + str(step),
-                x=np.arange(0, 5, 0.01),
-                y=np.sin(step * np.arange(0, 1, 0.02))))        # Sinus Formel
-    
-    
-    # Make 10th trace visible
-    fig3.data[2].visible = True
-    
-# ------------------Create and add slider VS 1.0---------------
-    #steps = []
-    #for i in range(len(fig3.data)):
-        #step = dict(
-            #method="update",
-            #args=[{"visible": [False] * len(fig3.data)},
-                #  {"title": "Slider switched to step: " + str(i)}],  # layout attribute
-        #)
-        #step["args"][0]["visible"][i] = True  # Toggle i'th trace to "visible"
-        #steps.append(step)
-    
-        #sliders = [dict(
-        #active=10,
-        #currentvalue={"prefix": "Frequency: "},
-        #pad={"t": 50},
-        #steps=steps
-        #)]
-    
-# ------------------Create and add slider VS 1.1---------------
-    steps = []
-    for i in range(len(fig3.data)):
-        step = dict(method='restyle',
-                    args=['visible', [False] * len(fig3.data)],
-                    #label='{}'.format(i + 2010))
-                    label = i + 2010)
-        step['args'][1][i] = True
-        steps.append(step)
-        
-        
-    sliders = [dict(active=9,
-        pad={"t": 20},          #padding
-        steps=steps)]    
-    
-    
+#------------Create Timeline Years V. 2.0-------------------
+    # read CSV for the histogram graph
+    df = pd.read_csv("C:\\Users\\Hannah Kruck\\Source\\Repos\\hannahkruck\\VIS_Test1\\Histogram_mini.csv", encoding ="utf8", sep=";")
+    # use years for the x-axis and the worldwide amount of asylum applications for the y-axis
+    fig3 = go.Figure(go.Scatter(x = df['year'], y = df['asylum_applications_worldwide']))
+    # customizing the graph
     fig3.update_layout(
-        sliders=sliders,
-        width=1000
-    )    
-    
-    #fig.show()
-    
-    # disable the modebar for such a small plot
-    #fig1.show(config=dict(displayModeBar=False))
-    #st.plotly_chart(fig1)
-    #second chart
+    # customize width
+        #autosize=False,
+        width=1900,
+        height=100,
+    # hide labels
+        yaxis={'visible': False, 'showticklabels': False
+        },
+    # show every year as a label below
+        xaxis={'type': 'category'},
+    # create white background to match with initial background of streamlit
+        plot_bgcolor='rgb(255,255,255)',
+    # set all margins and padding to zero to create full width graph
+        margin=go.layout.Margin(
+        l=0,
+        r=35,
+        b=0,
+        t=0,
+        pad = 0
+    )
+)
+#------------Create Slider Years V. 2.0-------------------
+    year = st.slider("", (int(df["year"].min())),(int(df["year"].max())))
+    selected_year = year
+    #Delete all cells, except one year (both maps)
+    indexNames = df[ df['year'] != selected_year ].index
+    df.drop(indexNames , inplace=True)
+
     with c1:
+        st.subheader('Asylum seekers by age in Europe in the year %s' % selected_year) 
         st.plotly_chart(fig1, use_container_width=True)
     with c2:
+        st.subheader('Top 10 Distribution of a Countries Asylum Applications among the various Countries of Destination  %s' % selected_year) 
         st.plotly_chart(fig2, use_container_width=True)
     with container:
         st.plotly_chart(fig3, use_container_width=True)
-
+    #with container:
+      
 if __name__ == "__main__":
     write()
     
