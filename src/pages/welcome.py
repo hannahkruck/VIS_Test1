@@ -71,6 +71,7 @@ def write():
 			<br>
 				<ul>
 					<li>Choropleth and Line Maps</li>
+				</ul>
 			</p>"""
 			
 		st.markdown(html_two, unsafe_allow_html=True)
