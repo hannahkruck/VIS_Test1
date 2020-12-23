@@ -20,7 +20,7 @@ def write():
     
     # read CSV
     # CSV for Pie Chart
-    df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart.csv", encoding ="utf8", sep=";")
+    df = pd.read_csv("C:\\Users\\Hannah Kruck\\source\\repos\\hannahkruck\\VIS_Test1\\piechart.csv", sep=";")
     
 
     #-----------------Markdown info-----------------
@@ -114,27 +114,29 @@ def write():
     target = show_df['Target'].dropna(axis=0, how='any')
     value = show_df['Value'].dropna(axis=0, how='any')
 
-    #color
+        #color
     color_node = [
-    #Source
-    '#2e8b57', '#cd8162', '#00e5ee', '#458b74', '#C37522', '#2270C3', '#ff6a6a', '#9370db', '#CDC037', '#787878',
-    #Target
+    #Source Syria, Afghanistan, Venezuela, Irak, Colombia, Pakistan, Türkei, Nigeria, Iran, Albania
+    '#40bf77', '#93beec', '#1ff91f', '#cd8162', '#a6a6a6', '#80e5ff', '#b299e6', '#ff33ff', '#CDC037', '#ff6a6a',
+    #Target 
     '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641']
+    
     color_link = [
-    '#4ab24a', '#4ab24a', '#4ab24a', '#4ab24a', '#4ab24a', '#4ab24a', '#4ab24a', '#4ab24a', '#4ab24a', '#4ab24a',
-    '#ce8161', '#ce8161', '#ce8161', '#ce8161', '#ce8161', '#ce8161', '#ce8161', '#ce8161', '#ce8161', '#ce8161', 
-    '#00e5ee', '#00e5ee', '#00e5ee', '#00e5ee', '#00e5ee', '#00e5ee', '#00e5ee', '#00e5ee', '#00e5ee', '#00e5ee',
-    '#458a73', '#458a73', '#458a73', '#458a73', '#458a73', '#458a73', '#458a73', '#458a73', '#458a73', '#458a73', 
-    '#dd8c39', '#dd8c39', '#dd8c39', '#dd8c39', '#dd8c39', '#dd8c39', '#dd8c39', '#dd8c39', '#dd8c39', '#dd8c39',
-    '#398add', '#398add', '#398add', '#398add', '#398add', '#398add', '#398add', '#398add', '#398add', '#398add',
-    '#ff6a6a', '#ff6a6a', '#ff6a6a', '#ff6a6a', '#ff6a6a', '#ff6a6a', '#ff6a6a', '#ff6a6a', '#ff6a6a', '#ff6a6a', 
-    '#9270da', '#9270da', '#9270da', '#9270da', '#9270da', '#9270da', '#9270da', '#9270da', '#9270da', '#9270da', 
-    '#ffd700', '#ffd700', '#ffd700', '#ffd700', '#ffd700', '#ffd700', '#ffd700', '#ffd700', '#ffd700', '#ffd700', 
-    '#787878', '#787878', '#787878', '#787878', '#787878', '#787878', '#787878', '#787878', '#787878', '#787878']
+    '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', 
+    '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', 
+    '#bef4be', '#bef4be', '#bef4be', '#bef4be', '#bef4be', '#bef4be', '#bef4be', '#bef4be', '#bef4be', '#bef4be',
+    '#e7c1b1', '#e7c1b1', '#e7c1b1', '#e7c1b1', '#e7c1b1', '#e7c1b1', '#e7c1b1', '#e7c1b1', '#e7c1b1', '#e7c1b1',
+    '#cccccc', '#cccccc', '#cccccc', '#cccccc', '#cccccc', '#cccccc', '#cccccc', '#cccccc', '#cccccc', '#cccccc', 
+    '#80e5ff', '#80e5ff', '#80e5ff', '#80e5ff', '#80e5ff', '#80e5ff', '#80e5ff', '#80e5ff', '#80e5ff', '#80e5ff',  
+    '#c2adeb', '#c2adeb', '#c2adeb', '#c2adeb', '#c2adeb', '#c2adeb', '#c2adeb', '#c2adeb', '#c2adeb', '#c2adeb',
+    '#ffccff', '#ffccff', '#ffccff', '#ffccff', '#ffccff', '#ffccff', '#ffccff', '#ffccff', '#ffccff', '#ffccff', 
+    '#ffec80', '#ffec80', '#ffec80', '#ffec80', '#ffec80', '#ffec80', '#ffec80', '#ffec80', '#ffec80', '#ffec80', 
+    '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc',]  
 
     # data to dict, dict to sankey
     link = dict(source = source, target = target, value = value, color=color_link)
-    node = dict(label = label, pad=50, thickness=5, color=color_node)
+    node = dict(label = label, pad= 20, thickness=10, color=color_node)
+
     layout = dict(
             #"Top 10 Verteilung der Asylanträge eines Landes auf die verschiedenen Zielländer"
             #title= 'Top 10 Distribution of a Countries Asylum Applications among the various <br>Countries of Destination  %s' % yearVar,
@@ -145,15 +147,14 @@ def write():
     # Eigenschaften Sanky Diagram Layout 
     fig2 = go.Figure(data, layout= layout)
 
-    
-   
 #------------Create pie chart-------------------
     # Transfer data to list
+    
     labels = df['year'].tolist()
     values = df['2019'].tolist()
     layout = dict( 
         height = 600,       
-        font = dict(size = 11),            
+        font = dict(size = 11)            
         #title='Age Distribution of Asylum Seekers Worldwide %s'
         )
     data = go.Pie(labels=labels, values=values)
@@ -170,7 +171,7 @@ def write():
 
 #------------Create Timeline Years V. 2.0-------------------
     # read CSV for the histogram graph
-    df = pd.read_csv("C:\\Users\\Hannah Kruck\\Source\\Repos\\hannahkruck\\VIS_Test1\\Histogram_mini.csv", encoding ="utf8", sep=";")
+    df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/Histogram_mini.csv",encoding ="utf8", sep = ";")
     # use years for the x-axis and the worldwide amount of asylum applications for the y-axis
     fig3 = go.Figure(go.Scatter(x = df['year'], y = df['asylum_applications_worldwide']))
     # customizing the graph
@@ -198,7 +199,7 @@ def write():
 #------------Create Slider Years V. 2.0-------------------
     year = st.slider("", (int(df["year"].min())),(int(df["year"].max())))
     selected_year = year
-    #Delete all cells, except one year (both maps)
+    # Delete all cells, except one year (both maps)
     indexNames = df[ df['year'] != selected_year ].index
     df.drop(indexNames , inplace=True)
 
@@ -206,11 +207,10 @@ def write():
         st.subheader('Asylum seekers by age in Europe in the year %s' % selected_year) 
         st.plotly_chart(fig1, use_container_width=True)
     with c2:
-        st.subheader('Top 10 Distribution of a Countries Asylum Applications among the various Countries of Destination  %s' % selected_year) 
+        st.subheader('Top 10 Distribution of a Countries Asylum Applications among the various Countries of Destination  %s' % selected_year)
         st.plotly_chart(fig2, use_container_width=True)
     with container:
         st.plotly_chart(fig3, use_container_width=True)
-    #with container:
       
 if __name__ == "__main__":
     write()
