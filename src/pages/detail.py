@@ -167,18 +167,22 @@ def write():
 #https://jasonxqh.github.io/2020/07/12/plotly基础/
     # read CSV
     # CSV for Pie Chart
-    #df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart.csv',sep = ';')
+    df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart.csv',sep = ';')
 	#df = pd.read_csv('/Users/yaildaaini/Desktop/streamlit/1_GIT_HUB_BACKUP/VIS_TEST20_neupie/VIS_Test1/piechart_neu_struk.csv',sep = ';')
 	
-    yearPie = selected_year 
+    #yearPie = selected_year 
 
     # Delete all cells, except one year (both maps)
-    #indexNames = df[df['Year'] != selected_year].index
+    #indexNames = df[df['year'] != yearPie].index
     #df.drop(indexNames , inplace=True)
 
-    # Transfer data to list hier mussen die Daten aus der Tabelle rein
-    labels = ['Label']
-    values = ['20']
+    #Alle Jahre überblick
+    #labels = df['Year'].tolist()
+    #values = df['under 18'].tolist()
+
+    #Transfer data to list hier mussen die Daten aus der Tabelle rein
+    labels = df['year'].tolist()
+    values = df['2019'].tolist()
 
     # Define color sets of paintings
     colors = ['#e6f2ff', '#b3d9ff', '#80bfff', '#3386E6']
@@ -214,6 +218,7 @@ def write():
 
     #data = go.Pie(labels=labels, values=values)
     #fig1 = go.Figure(data, layout= layout)
+
 
 
 #------------Create pie chart 1. Version-------------------
