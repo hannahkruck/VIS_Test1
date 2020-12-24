@@ -41,15 +41,15 @@ def write():
 	</style>
     """, unsafe_allow_html=True)
 
-	st.title("Willkommen bei (TOOLNAME)")
+	st.title("Willkommen bei visuasyl")
 
 # HTML Inhalt
 	html = """
-		<h3 id=text><b>Visuasyl</b> is an interactive visualisation tool that visually illustrates information about asylum applications and the development in Europe. 
+		<h3 id=text><b>visuasyl</b> is an interactive visualisation tool that visually illustrates information about asylum applications and the development in Europe. 
 			The aim of visuasyl is to provide users with an insight and overview of the number of annual asylum applications and migration in Europe 
 			between 2010 and 2019, using different visualisation methods. 
 			<br>
-			Visuasyl was mainly developed for political parties, politicians and non-governmental organisations (NGOs). 
+			visuasyl was mainly developed for political parties, politicians and non-governmental organisations (NGOs). 
 			Because of the simple functionalities, visuasyl can also be used by non-experts and interested parties.	
 			<br>
 		</h3>
@@ -150,10 +150,40 @@ def write():
 		st.markdown(html_two, unsafe_allow_html=True)
 
 	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
-	my_expander_three = st.beta_expander("Expand 3", expanded=False)
+	my_expander_three = st.beta_expander("Data Preprocessing", expanded=False)
 	with my_expander_three:
 		html_three = """ 
-			<p> Inhalt </p>"""
+			<p> In order to have the data in a appropriate format to be displayed in the GUI, 
+			the existing data set had to be filtered and adjusted. 
+			It was found that it is easiest for the visualization to create a separate pre-processed data set for each visualization form.
+			This creates more effort on the side of data pre-processing and data transformations, 
+			but makes the visualization in the GUI much easier.  
+			<br></br>
+			As a first step, it was examined what a suitable CSV file should look like for each visualization form and 
+			thereby a data structure was defined. 
+			The data is provided in CSV files, since these can be processed well with Python and no database has to be set up.
+			<br></br>
+			In the given dataset, data without specific classification, such as gender, age, or country of origin, was listed as unknown. 
+			For our application, we decided to use only unambiguously assignable data, 
+			as this allows a conclusive statement for the given rubric and does not add to the complexity. 
+			In addition, it was particularly important for us to remain consistent, so for each of the pre-processed datasets, 
+			we explicitly selected males, females, and those under 18, 18-34, 35-64, and over 65. 
+			For additional simplicity, we also omitted the distinction between asylum applications and initial applications.
+			Furthermore, data for the Overseas Countries and Territories ("Überseeische Länder und Hoheitsgebiete") were removed, 
+			since no unique geocode could be determined for this area, which is, however, important for the visualization of the map.
+			A period of 10 years (2010 to 2019) was selected as the data for 2020 was not yet complete, 
+			but in general the less distant data seemed more interesting.
+			<br></br>
+			
+			</p>"""
+		st.markdown(html_three, unsafe_allow_html=True)
+
+	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
+	my_expander_three = st.beta_expander("Target Group", expanded=False)
+	with my_expander_three:
+		html_three = """ 
+			<p> Visuasyl was mainly developed for political parties, politicians and non-governmental organisations (NGOs). 
+			Because of the simple functionalities, visuasyl can also be used by non-experts and interested parties. </p>"""
 		st.markdown(html_three, unsafe_allow_html=True)
 
 	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
@@ -170,7 +200,7 @@ def write():
 		html_five = """ 
 			<p>The visualisation tool <b>visuasyl</b> was developed as part of the module "Visualisation". 
 			The aim of this module has been to find a dataset of interest and to develop a visualisation tool. 
-			<br>Visuasyl was developed by five students (3rd semester) of the Human-Centered Computing programme at Reutlingen University:
+			<br>visuasyl was developed by five students (3rd semester) of the Human-Centered Computing programme at Reutlingen University:
 			<br>
 			<ul>
 				<li> Rahel Anna, Illi<br></li>
@@ -202,6 +232,12 @@ def write():
 			<p>[1] 16.10.2020. Was tut die Bundesregierung im Bereich Migration und Integration?. URL: https://www.bundesregierung.de/breg-de/themen/migration-und-integration</p>"""
 		st.markdown(html_four, unsafe_allow_html=True)
 
+	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
+	my_expander_three = st.beta_expander("Expand 3", expanded=False)
+	with my_expander_three:
+		html_three = """ 
+			<p> Inhalt </p>"""
+		st.markdown(html_three, unsafe_allow_html=True)
 
 	c1, c2 = st.beta_columns((1,1))
 	container = st.beta_container()

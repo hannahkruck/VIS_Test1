@@ -69,8 +69,10 @@ def write():
         The pie chart represents the age distribution worldwide for the selected year.
         <br><br>
         <b>Sankey Diagram</b><br>
-        The Sankey diagram shows the distribution of asylum applications from the different countries of origin (left) to the different countries of destination (right).
-        Top 10 destination countries of a year are illustrated here.
+        The Sankey diagram shows the distribution of asylum applications from the different countries of origin (left) 
+        to the different countries of destination (right).
+        The top 10 origin and destination countries of a year are illustrated here.
+        The colors only serve for better differentiation, but otherwise have no meaning and are also not assigned to a specific country. 
         <br><br>
         It should be noted that due to the overview, unknown data as well as data on overseas countries and territories have been removed from the dataset.  In addition, for a few countries only temporary data has been provided.
         </span></div>
