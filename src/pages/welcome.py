@@ -173,8 +173,6 @@ def write():
 			since no unique geocode could be determined for this area, which is, however, important for the visualization of the map.
 			A period of 10 years (2010 to 2019) was selected as the data for 2020 was not yet complete, 
 			but in general the less distant data seemed more interesting.
-			<br></br>
-			
 			</p>"""
 		st.markdown(html_three, unsafe_allow_html=True)
 

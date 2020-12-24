@@ -184,7 +184,27 @@ def write():
 
     #Transfer data to list hier mussen die Daten aus der Tabelle rein
     labels = df['year'].tolist()
-    values = df['2019'].tolist()
+    if selected_year == 2010:
+            values = df['2010'].tolist()
+    if selected_year == 2011:
+            values = df['2011'].tolist()     
+    if selected_year == 2012:
+            values = df['2012'].tolist()       
+    if selected_year == 2013:
+            values = df['2013'].tolist()
+    if selected_year == 2014:
+            values = df['2014'].tolist()
+    if selected_year == 2015:
+            values = df['2015'].tolist()
+    if selected_year == 2016:
+            values = df['2016'].tolist()
+    if selected_year == 2017:
+            values = df['2017'].tolist()
+    if selected_year == 2018:
+            values = df['2018'].tolist()
+    if selected_year == 2019:
+            values = df['2019'].tolist()
+            
 
     # Define color sets of paintings
     colors = ['#e6f2ff', '#b3d9ff', '#80bfff', '#3386E6']
