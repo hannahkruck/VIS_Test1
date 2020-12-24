@@ -76,6 +76,20 @@ def write():
         </span></div>
         ''', unsafe_allow_html=True)  
 
+    # alte csv und neue csv, hier gibt es probleme aufgrund der spalten 18-34...
+    # df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart.csv',sep = ';')
+
+    # neue csv pie sturktur
+    df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart_neu_struk.csv',sep = ';')
+
+    #------------------------Slider-------------------
+    # Slider to choose Year for diagramm
+    year = st.slider("", (int(df["Year"].min())),(int(df["Year"].max())))
+    selected_year = year
+
+    # Delete all cells, except one year (both maps)
+    #indexNames = df[ df['year'] != selected_year ].index
+    #df.drop(indexNames , inplace=True)
 
     # Layout setting of the page 
     c1, c2 = st.beta_columns((1, 1))
@@ -83,12 +97,14 @@ def write():
     st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
 
     
+
 #-------------------------Create Sankey diagram-------------------------------
 #https://www.geeksforgeeks.org/sankey-diagram-using-plotly-in-python/
 #https://coderzcolumn.com/tutorials/data-science/how-to-plot-sankey-diagram-in-python-jupyter-notebook-holoviews-and-plotly#2
     
-    # Variabel fuer Sankey diagramm
-    yearVar = 2019                       
+    # Variabel fuer Sankey diagramm und connection mit zeitstrahl
+    yearVar = selected_year    
+    #yearVar = 2019                       
     
     #daten einlesen & selectieren
     show_df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/Datensatz_Sankey_Diagramm_eng.csv',sep = ';')
@@ -148,15 +164,70 @@ def write():
     fig2 = go.Figure(data, layout= layout)
 
 #------------Create pie chart-------------------
-    # Transfer data to list
-    
-    labels = df['year'].tolist()
+#https://jasonxqh.github.io/2020/07/12/plotly基础/
+    # read CSV
+    # CSV for Pie Chart
+    #df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart.csv',sep = ';')
+	#df = pd.read_csv('/Users/yaildaaini/Desktop/streamlit/1_GIT_HUB_BACKUP/VIS_TEST20_neupie/VIS_Test1/piechart_neu_struk.csv',sep = ';')
+	
+    yearPie = selected_year 
+
+    # Delete all cells, except one year (both maps)
+    #indexNames = df[df['Year'] != selected_year].index
+    #df.drop(indexNames , inplace=True)
+
+    # Transfer data to list hier mussen die Daten aus der Tabelle rein
+    labels = ['Label']
+    values = ['20']
+
+    # Define color sets of paintings
+    colors = ['#e6f2ff', '#b3d9ff', '#80bfff', '#3386E6']
+
+    # Create pie figure
+    fig1 = go.Figure(data=[go.Pie(
+            labels=labels, 
+            values=values, 
+            #textinfo='label+percent+text',
+            insidetextorientation='radial',
+            hole=0.399, 
+            )])
+
+    fig1.update_traces(
+            hoverinfo='label+percent+value', 
+            textinfo='percent+label',
+            textfont_size=11,
+            marker=dict(colors=colors, line=dict(color='lightskyblue', width=0.1))
+    )  
+	
+    fig1.update_layout(
+            dict( 
+                    #title_text="Titel",
+                    height = 600,   
+                    font = dict(size = 15)))
+
+    fig1.update_layout(
+    # Add annotations in the center of the donut pies.
+    annotations=[dict(
+            text='<b>Age<br> Distribution</b>', 
+            font_size=12, 
+            showarrow=False),])
+
+    #data = go.Pie(labels=labels, values=values)
+    #fig1 = go.Figure(data, layout= layout)
+
+
+#------------Create pie chart 1. Version-------------------
+# Transfer data to list
+    '''
+    labels = df['Year'].tolist()
     values = df['2019'].tolist()
+    
     layout = dict( 
         height = 600,       
         font = dict(size = 11)            
         #title='Age Distribution of Asylum Seekers Worldwide %s'
         )
+    
     data = go.Pie(labels=labels, values=values)
 
     # Create pie figure
@@ -167,7 +238,7 @@ def write():
         insidetextorientation='radial',)])
     
     # Features Pie Diagram Layout
-    fig1 = go.Figure(data, layout=layout)
+    fig1 = go.Figure(data, layout=layout)'''
 
 #------------Create Timeline Years V. 2.0-------------------
     # read CSV for the histogram graph
@@ -197,11 +268,11 @@ def write():
     )
 )
 #------------Create Slider Years V. 2.0-------------------
-    year = st.slider("", (int(df["year"].min())),(int(df["year"].max())))
+    ''' year = st.slider("", (int(df["year"].min())),(int(df["year"].max())))
     selected_year = year
     # Delete all cells, except one year (both maps)
     indexNames = df[ df['year'] != selected_year ].index
-    df.drop(indexNames , inplace=True)
+    df.drop(indexNames , inplace=True)'''
 
     with c1:
         st.subheader('Asylum seekers by age in Europe in the year %s' % selected_year) 
