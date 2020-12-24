@@ -188,7 +188,51 @@ def write():
 	my_expander_four = st.beta_expander("Insights through the visualisation tool", expanded=False)
 	with my_expander_four:
 		html_four = """ 
-			<p> Inhalt </p>"""
+			<p> 
+				<table>
+					<tr>
+						<th>Hypothesis</th>
+						<th>Can the hypothesis be investigated with the data?</th>
+						<th>Does the data confirm or refute the hypothesis?</th>
+					</tr>
+					<tr>
+						<td>The start of the war in Syria in 2011 can also be seen in the number of asylum applications since that time.</td>
+						<td>Yes and no. Based on the development of the number of asylum applications, 
+						it is possible to examine whether there has been an increase since that time. 
+						However, such an increase may also have other/different reasons.</td>
+						<td>Since 2011, we have actually seen an increase. Not only are the numbers on the world maps getting bigger. 
+						Syria is also among the top 10 countries of origin. 
+						The Sankey diagram shows impressively how the refugees from Syria are distributed among the top 10 destination countries.</td>
+					</tr>
+					<tr>
+						<td>More asylum applications are prepared by men than by women.</td>
+						<td>Yes, this question can be examined. However, the data classified as unknown were omitted. 
+						Due to this unreported number, it is possible that the actual values differ from those presented here.</td>
+						<td> ... </td>
+					</tr>
+					<tr>
+						<td>Federal states which have a border with neighboring states receive more asylum applications.</td>
+						<td>This hypothesis cannot be answered since a worldwide data set was chosen instead of the data set for Germany.</td>
+						<td> - </td>
+					</tr>
+					<tr>
+						<td>Countries that have a border at the sea receive more asylum applications.</td>
+						<td> The number of asylum applications can be taken and compared manually. 
+						But differences in distribution can also be influenced by other factors, such as the size of the country and the policies of the respective country.</td>
+						<td> ... </td>
+					</tr>
+					<tr>
+						<td>Countries with a good economic situation receive more asylum applications.</td>
+						<td>The number of asylum applications can be taken and compared manually. 
+						However, the data do not provide information on the economic situation of the respective countries. 
+						This information would have to be supplemented by another data source. 
+						However, it is unclear whether this number then reflects the distribution of recent years and can therefore be generalized. 
+						In addition, differences in distribution can also be influenced by other factors, 
+						such as the size of the country and the policies of the respective country.</td>
+						<td> - </td>
+					</tr>
+				</table>
+			</p>"""
 		st.markdown(html_four, unsafe_allow_html=True)
 
 
@@ -229,13 +273,6 @@ def write():
 		html_four = """ 
 			<p>[1] 16.10.2020. Was tut die Bundesregierung im Bereich Migration und Integration?. URL: https://www.bundesregierung.de/breg-de/themen/migration-und-integration</p>"""
 		st.markdown(html_four, unsafe_allow_html=True)
-
-	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
-	my_expander_three = st.beta_expander("Expand 3", expanded=False)
-	with my_expander_three:
-		html_three = """ 
-			<p> Inhalt </p>"""
-		st.markdown(html_three, unsafe_allow_html=True)
 
 	c1, c2 = st.beta_columns((1,1))
 	container = st.beta_container()
