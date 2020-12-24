@@ -244,11 +244,6 @@ def write():
     )
 )
 #------------Create Slider Years V. 2.0-------------------
-    ''' year = st.slider("", (int(df["year"].min())),(int(df["year"].max())))
-    selected_year = year
-    # Delete all cells, except one year (both maps)
-    indexNames = df[ df['year'] != selected_year ].index
-    df.drop(indexNames , inplace=True)'''
 
     with c1:
         st.subheader('Asylum seekers by age in Europe in the year %s' % selected_year) 
