@@ -9,14 +9,13 @@ import plotly.graph_objects as go
 import plotly.express as px
 import numpy as np
 
-
 logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
 
 def write():
 	
-#ast.shared.components.title_awesome("Welcome")      # Titel Awesome_Streamlit ausblenden
+	#ast.shared.components.title_awesome("Welcome")      # Titel Awesome_Streamlit ausblenden
 	
-# CSS Startseite
+	#-----------CSS Startseite------------
 	st.markdown("""
 	<style>
 		body {
@@ -41,9 +40,10 @@ def write():
 	</style>
     """, unsafe_allow_html=True)
 
+	# title of the page
 	st.title("Willkommen bei visuasyl")
 
-# HTML Inhalt
+	# html markdown text
 	html = """
 		<h3 id=text><b>visuasyl</b> is an interactive visualisation tool that visually illustrates information about asylum applications and the development in Europe. 
 			The aim of visuasyl is to provide users with an insight and overview of the number of annual asylum applications and migration in Europe 
@@ -57,7 +57,7 @@ def write():
 	"""
 	st.markdown(html, unsafe_allow_html=True)
 	
-	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
+	# expander 1 to open and close informations
 	my_expander_three = st.beta_expander("What informations and interaction options offers visuasyl?", expanded=False)
 	with my_expander_three:
 		html_three = """ 
@@ -89,18 +89,12 @@ def write():
 			- Special filters for the  Line Map: Select a Type for Map (Target or Origin Country), Select a specific Country
 
 			By adjusting the time slider, users can update the data of the charts to the selected year.
-
-
-			
 			"""
-
-
 		st.markdown(html_three, unsafe_allow_html=True)
 
 
-	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
+	# expander 2 to open and close informations
 	my_expander_one = st.beta_expander("Where does the source data come from?", expanded=False)
-	
 	with my_expander_one:
 		html_one = """ 
 
@@ -114,9 +108,8 @@ def write():
 
 
 	
-	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
+	# expander 3 to open and close informations
 	my_expander_two = st.beta_expander("Implementation of the visualisation tool", expanded=False)
-	
 	with my_expander_two:
 		html_two = """ 
 			<p> The visualisation tool was implemented with the open source framework <a target="_blank" href="https://www.streamlit.io"><b> Streamlit</b></a>.<br> 
@@ -143,13 +136,11 @@ def write():
 				<ul>
 					<li>For user-specific design of the website and the information button</li>
 				</ul>
-
-
 		</p>"""
 			
 		st.markdown(html_two, unsafe_allow_html=True)
 
-	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
+	# expander 4 to open and close informations
 	my_expander_three = st.beta_expander("Data Preprocessing", expanded=False)
 	with my_expander_three:
 		html_three = """ 
@@ -176,7 +167,7 @@ def write():
 			</p>"""
 		st.markdown(html_three, unsafe_allow_html=True)
 
-	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
+	# expander 5 to open and close informations
 	my_expander_three = st.beta_expander("Target Group", expanded=False)
 	with my_expander_three:
 		html_three = """ 
@@ -184,7 +175,7 @@ def write():
 			Because of the simple functionalities, visuasyl can also be used by non-experts and interested parties. </p>"""
 		st.markdown(html_three, unsafe_allow_html=True)
 
-	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
+	# expander 6 to open and close informations
 	my_expander_four = st.beta_expander("Insights through the visualisation tool", expanded=False)
 	with my_expander_four:
 		html_four = """ 
@@ -236,7 +227,7 @@ def write():
 		st.markdown(html_four, unsafe_allow_html=True)
 
 
-	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
+	# expander 7 to open and close informations
 	my_expander_five = st.beta_expander("About us", expanded=False)
 	with my_expander_five:
 		html_five = """ 
@@ -267,24 +258,20 @@ def write():
 		st.markdown(html_five, unsafe_allow_html=True)
 		
 	
-	#Expander - Wenn unter titel dann muss es ueber Spalten erstellen stehen
+	# expander 8 to open and close informations
 	my_expander_four = st.beta_expander("Source", expanded=False)
 	with my_expander_four:
 		html_four = """ 
 			<p>[1] 16.10.2020. Was tut die Bundesregierung im Bereich Migration und Integration?. URL: https://www.bundesregierung.de/breg-de/themen/migration-und-integration</p>"""
 		st.markdown(html_four, unsafe_allow_html=True)
 
+
+	#-----------------Page Layout--------------
+    # Layout setting of the page
 	c1, c2 = st.beta_columns((1,1))
 	container = st.beta_container()
 	st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
 			
-				
-				
-	
-
-				
-				
-			
-			
+		
 if __name__ == "__main__":
 	write()
