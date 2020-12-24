@@ -16,7 +16,6 @@ def write():
     
     # Page title
     st.title("Detailed view")
-#   st.header('Hier kann ein Text rein')
     
     # read CSV
     # CSV for Pie Chart
@@ -24,7 +23,6 @@ def write():
     
 
     #-----------------Markdown info-----------------
-    
     st.markdown('''
     <!-- https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip_transition & https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip_right-->
     <style>
@@ -32,7 +30,6 @@ def write():
             position: relative;
             display: inline-block;
             font-size:1.6rem;
-            
         }
         
         .tooltip .tooltiptext {
@@ -50,11 +47,9 @@ def write():
             z-index: 1;
             top: -5px;
             left: 105%;
-            
             opacity: 0;
             transition: opacity 0.8s;
         }
-        
         .tooltip:hover .tooltiptext {
             visibility: visible;
             opacity: 1;
@@ -64,59 +59,56 @@ def write():
 
     st.markdown('''
         <div class="tooltip">&#x24D8
-        <span class="tooltiptext">
-        <b>Pie Chart</b><br>
-        The pie chart represents the age distribution worldwide for the selected year.
-        <br><br>
-        <b>Sankey Diagram</b><br>
-        The Sankey diagram shows the distribution of asylum applications from the different countries of origin (left) 
-        to the different countries of destination (right).
-        The top 10 origin and destination countries of a year are illustrated here.
-        The colors only serve for better differentiation, but otherwise have no meaning and are also not assigned to a specific country. 
-        <br><br>
-        It should be noted that due to the overview, unknown data as well as data on overseas countries and territories have been removed from the dataset.  In addition, for a few countries only temporary data has been provided.
-        </span></div>
+            <span class="tooltiptext">
+                <b>Pie Chart</b><br>
+                    The pie chart represents the age distribution worldwide for the selected year.
+                <br><br>
+                <b>Sankey Diagram</b><br>
+                    The Sankey diagram shows the distribution of asylum applications from the different countries of origin (left) 
+                    to the different countries of destination (right).
+                    The top 10 origin and destination countries of a year are illustrated here.
+                    The colors only serve for better differentiation, but otherwise have no meaning and are also not assigned to a specific country. 
+                <br><br>
+                    It should be noted that due to the overview, unknown data as well as data on overseas countries and territories have been removed from the dataset.  In addition, for a few countries only temporary data has been provided.
+            </span>
+        </div>
         ''', unsafe_allow_html=True)  
 
-    # alte csv und neue csv, hier gibt es probleme aufgrund der spalten 18-34...
+    # read csv
+    # old csv  pie structure 
     # df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart.csv',sep = ';')
-
-    # neue csv pie sturktur
+    # new csv  pie structure
     df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart_neu_struk.csv',sep = ';')
 
-    #------------------------Slider-------------------
+
+    #-----------------Slider-------------------
     # Slider to choose Year for diagramm
     year = st.slider("", (int(df["Year"].min())),(int(df["Year"].max())))
     selected_year = year
 
-    # Delete all cells, except one year (both maps)
-    #indexNames = df[ df['year'] != selected_year ].index
-    #df.drop(indexNames , inplace=True)
 
+    #-----------------Page Layout--------------
     # Layout setting of the page 
     c1, c2 = st.beta_columns((1, 1))
     container = st.beta_container()
     st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
 
-    
 
-#-------------------------Create Sankey diagram-------------------------------
-#https://www.geeksforgeeks.org/sankey-diagram-using-plotly-in-python/
-#https://coderzcolumn.com/tutorials/data-science/how-to-plot-sankey-diagram-in-python-jupyter-notebook-holoviews-and-plotly#2
+    #------------------Create Sankey diagram-------------------------------
+    # https://www.geeksforgeeks.org/sankey-diagram-using-plotly-in-python/
+    # https://coderzcolumn.com/tutorials/data-science/how-to-plot-sankey-diagram-in-python-jupyter-notebook-holoviews-and-plotly#2
     
-    # Variabel fuer Sankey diagramm und connection mit zeitstrahl
+    # Variable year for Sankey diagram
     yearVar = selected_year    
-    #yearVar = 2019                       
-    
-    #daten einlesen & selectieren
+                         
+    # read sankey csv and data selection
     show_df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/Datensatz_Sankey_Diagramm_eng.csv',sep = ';')
 
-    #YEAR
+    # year
     yearRows = show_df[show_df['Year'] != yearVar].index
     show_df.drop(yearRows , inplace=True)
 
-
-    # Nodes & links & colors
+    # Nodes, links, colors
     label_souce = show_df['Label_Source'].dropna(axis=0, how='any')
     label_souce2 = []
     elementVar = ''
@@ -132,11 +124,11 @@ def write():
     target = show_df['Target'].dropna(axis=0, how='any')
     value = show_df['Value'].dropna(axis=0, how='any')
 
-        #color
+    # setting color for node and link
     color_node = [
-    #Source Syria, Afghanistan, Venezuela, Irak, Colombia, Pakistan, Türkei, Nigeria, Iran, Albania
+    # Source order Syria, Afghanistan, Venezuela, Irak, Colombia, Pakistan, Türkei, Nigeria, Iran, Albania
     '#40bf77', '#93beec', '#1ff91f', '#cd8162', '#a6a6a6', '#80e5ff', '#b299e6', '#ff33ff', '#CDC037', '#ff6a6a',
-    #Target 
+    # Target 
     '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641']
     
     color_link = [
@@ -152,37 +144,25 @@ def write():
     '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc', '#ffcccc',]  
 
     # data to dict, dict to sankey
-    link = dict(source = source, target = target, value = value, color=color_link)
-    node = dict(label = label, pad= 20, thickness=10, color=color_node)
-
+    link = dict(source = source, target = target, value = value, color = color_link)
+    node = dict(label = label, pad = 20, thickness = 10, color = color_node)
     layout = dict(
-            #"Top 10 Verteilung der Asylanträge eines Landes auf die verschiedenen Zielländer"
-            #title= 'Top 10 Distribution of a Countries Asylum Applications among the various <br>Countries of Destination  %s' % yearVar,
-            height = 800,                   
-            font = dict(size = 11),)
+        height = 800, 
+        font = dict(
+            size = 11),)
+    
     data = go.Sankey(link = link, node=node)
     
-    # Eigenschaften Sanky Diagram Layout 
+    # properties sanky diagram layout 
     fig2 = go.Figure(data, layout= layout)
 
-#------------Create pie chart-------------------
-#https://jasonxqh.github.io/2020/07/12/plotly基础/
-    # read CSV
-    # CSV for Pie Chart
+    #-----------------Create pie chart-------------------
+    # https://jasonxqh.github.io/2020/07/12/plotly基础/
+    
+    # read csv for pie chart
     df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart.csv',sep = ';')
-	#df = pd.read_csv('/Users/yaildaaini/Desktop/streamlit/1_GIT_HUB_BACKUP/VIS_TEST20_neupie/VIS_Test1/piechart_neu_struk.csv',sep = ';')
 	
-    #yearPie = selected_year 
-
-    # Delete all cells, except one year (both maps)
-    #indexNames = df[df['year'] != yearPie].index
-    #df.drop(indexNames , inplace=True)
-
-    #Alle Jahre überblick
-    #labels = df['Year'].tolist()
-    #values = df['under 18'].tolist()
-
-    #Transfer data to list hier mussen die Daten aus der Tabelle rein
+    # show specific value if a choosen year is selected on slider
     labels = df['year'].tolist()
     if selected_year == 2010:
             values = df['2010'].tolist()
@@ -205,67 +185,36 @@ def write():
     if selected_year == 2019:
             values = df['2019'].tolist()
             
-
-    # Define color sets of paintings
+    # define color sets 
     colors = ['#e6f2ff', '#b3d9ff', '#80bfff', '#3386E6']
 
-    # Create pie figure
+    # create pie figure
     fig1 = go.Figure(data=[go.Pie(
-            labels=labels, 
-            values=values, 
-            #textinfo='label+percent+text',
-            insidetextorientation='radial',
-            hole=0.399, 
-            )])
+            labels = labels, 
+            values = values, 
+            insidetextorientation = 'radial',
+            hole = 0.399,)])
 
+    # update settings hover and text informations
     fig1.update_traces(
-            hoverinfo='label+percent+value', 
-            textinfo='percent+label',
-            textfont_size=11,
-            marker=dict(colors=colors, line=dict(color='lightskyblue', width=0.1))
-    )  
+            hoverinfo = 'label+percent+value', 
+            textinfo = 'percent+label',
+            textfont_size = 11,
+            marker = dict(colors = colors, 
+            line = dict(color = 'lightskyblue', width = 0.1)))  
 	
-    fig1.update_layout(
-            dict( 
-                    #title_text="Titel",
-                    height = 600,   
-                    font = dict(size = 15)))
+    # update settings layout
+    fig1.update_layout(dict(
+        height = 600, 
+        font = dict(
+            size = 12)))
 
+    # add annotations in the center of the donut pie
     fig1.update_layout(
-    # Add annotations in the center of the donut pies.
     annotations=[dict(
             text='<b>Age<br> Distribution</b>', 
             font_size=12, 
             showarrow=False),])
-
-    #data = go.Pie(labels=labels, values=values)
-    #fig1 = go.Figure(data, layout= layout)
-
-
-
-#------------Create pie chart 1. Version-------------------
-# Transfer data to list
-    '''
-    labels = df['Year'].tolist()
-    values = df['2019'].tolist()
-    
-    layout = dict( 
-        height = 600,       
-        font = dict(size = 11)            
-        #title='Age Distribution of Asylum Seekers Worldwide %s'
-        )
-    
-    data = go.Pie(labels=labels, values=values)
-
-    # Create pie figure
-    fig1 = go.Figure(data=[go.Pie(
-        labels=labels, 
-        values=values, 
-        textinfo='label+percent', 
-        insidetextorientation='radial',)])
-    
-    # Features Pie Diagram Layout
-    fig1 = go.Figure(data, layout=layout)'''
 
 #------------Create Timeline Years V. 2.0-------------------
     # read CSV for the histogram graph
