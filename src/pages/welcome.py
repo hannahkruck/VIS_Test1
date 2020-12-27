@@ -8,6 +8,8 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 import numpy as np
+import base64
+
 
 logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO)
 
@@ -22,82 +24,115 @@ def write():
 			color: black;
 			font-color: black;
 			background-color: white;
+  			/*background: #e6f2ff;*/
 		}
+		#h1 {
+			text-align: center;
+		}
+		/* Navigationsueberschrift mittig
+		h1 {
+			text-align: center;
+		}*/
 		h3 {
 			text-align: justify;
+			text-align: center;*/
 		}
 		p {
 			text-align: justify; 
 		}
 		#text {
-			color: #1878a1;
+			color: #06648c; /*#1878a1;*/
 			font-weight:normal;
 		}
 		#expand_three {
 			color: #1878a1;
 			font-size: 18px;
 		}
+		#aufzaehlung {
+			margin-left: 30px;
+		}
+		
 	</style>
-    """, unsafe_allow_html=True)
 
+	
+    """, unsafe_allow_html=True)
+	
 	# title of the page
-	st.title("Willkommen bei visuasyl")
+	#st.title("Welcome to visuasyl")
 
 	# html markdown text
 	html = """
-		<h3 id=text><b>visuasyl</b> is an interactive visualisation tool that visually illustrates information about asylum applications and the development in Europe. 
-			The aim of visuasyl is to provide users with an insight and overview of the number of annual asylum applications and migration in Europe 
+		<h1 id=h1><b>Welcome to VISUASYL</b><h1>
+		<h3 id=text><b>VISUASYL</b> is an interactive visualisation tool that visually illustrates information about asylum applications and the development in Europe. 
+			<br>The aim of VISUASYL is to provide users with an insight and overview of the number of annual asylum applications and migration in Europe 
 			between 2010 and 2019, using different visualisation methods. 
-			<br>
-			visuasyl was mainly developed for political parties, politicians and non-governmental organisations (NGOs). 
-			Because of the simple functionalities, visuasyl can also be used by non-experts and interested parties.	
+			<br>VISUASYL was mainly developed for political parties, politicians and non-governmental organisations (NGOs). 
+			Because of the simple functionalities, VISUASYL can also be used by non-experts and interested parties.	
 			<br>
 		</h3>
+
 	<hr>
 	"""
 	st.markdown(html, unsafe_allow_html=True)
 	
 	# expander 1 to open and close informations
-	my_expander_three = st.beta_expander("What informations and interaction options offers visuasyl?", expanded=False)
+	my_expander_three = st.beta_expander("Informations and interaction options of VISUASYL", expanded=False)
 	with my_expander_three:
 		html_three = """ 
-			<b id=expand_three>Informations</b><br>
-			<u>Chorpleth Map</u>:<br>
-			The number of asylum applications per country in Europe and the number of refugees per country worldwide for the selected year.
-
-			<u>Line Map</u>:<br>
-			Route of the refugees: From which countries the asylum seekers originate in relation to a specific country and
-			where the asylum seekers are fleeing from in relation to a particular country of origin.
+			<b id=expand_three>Informations</b>
+			<br>VISUASYL uses visualisation methods to provide an overview of the number of annual asylum applications and migration in Europe. The diagrams and the information they provide are described below.
 			
-			<u>Pie Chart</u>:<br>
-			Represents the age distribution worldwide for the selected year. 
-			
-			<u>Sankey Diagram</u>:<br>
-			Shows the distribution of asylum applications from the different countries of origin to the different countries of destination. 
-			Also the Top 10 destination countries of a year are illustrated here. 
+			<div id=aufzaehlung>
+				<u>Chorpleth Map</u>:<br>
+					<ul>
+						<li>The number of asylum applications per country in Europe and the number of refugees per country worldwide for the selected year.
+						</li>
+					</ul>
+				<u>Line Map</u>:
+					<ul>
+						<li>Route of the refugees: From which countries the asylum seekers originate in relation to a specific country and 
+						where the asylum seekers are fleeing from in relation to a particular country of origin.
+						</li>
+					</ul>
+				<u>Pie Chart</u>:<br>
+					<ul>
+						<li>Represents the age distribution worldwide for the selected year. 
+						</li>
+					</ul>
+				<u>Sankey Diagram</u>:<br>
+					<ul>
+						<li>Shows the distribution of asylum applications from the different countries of origin to the different countries of destination. 
+						Also the Top 10 destination countries of a year are illustrated here. 
+						</li>
+					</ul>
+				<u>Time graph</u>:<br>
+					<ul>	
+						<li>Shows the total number of asylum applications over the years.			
+						</li>
+					</ul>
+			</div>
 
-			<u>Time graph</u>:<br>
-			Shows the total number of asylum applications over the years.			
-			
-			<br><b id=expand_three>Interaction Options:</b><br>
-			<u>Navigation Sidebar</u>:<br>
-			Allows to switch between welcome, home and detail site.<br>
-			Also the navigation sidebar contains filter options for the maps:
-			- Switching between the choropleth and line map 
-			- Filtering the map by selecting Age, Gender
-			- Special filters for the Choropleth Map: Application to target country, Application by country of origin
-			- Special filters for the  Line Map: Select a Type for Map (Target or Origin Country), Select a specific Country
-
+			<br><b id=expand_three>Interaction Options</b><br>
+				VISUASYL contains a navigation bar that allows users to switch between the <i>Welcome, Home and Detail page</i>. 
+				The tool also offers users various ways to interact with the diagrams. Some charts allows users to show more information by hovering above the diagram or hide some informations 
+				by clicking on the legends of an diagram to highlight certain information. Other charts such as the maps on the home page, offer greater interaction possibilities by allowing users to select filters or parameter settings to obtain specific information, e.g. on a country, citizenship, age or gender. 
+				<br>
+				The following filtering options for the maps are available to users in the navigation bar:
+			<div id=aufzaehlung>
+				<ul><li>Switching between the choropleth and line map </li></ul>
+				<ul><li>Filtering the map by selecting Age, Gender </li></ul>
+				<ul><li>Special filters for the Choropleth Map: Application to target country, Application by country of origin </li></ul>
+				<ul><li>Special filters for the  Line Map: Select a Type for Map (Target or Origin Country), Select a specific Country </li></ul>
+			</div>
 			By adjusting the time slider, users can update the data of the charts to the selected year.
-			"""
+			<br><br>"""
 		st.markdown(html_three, unsafe_allow_html=True)
 
 
 	# expander 2 to open and close informations
-	my_expander_one = st.beta_expander("Where does the source data come from?", expanded=False)
+	my_expander_one = st.beta_expander("Source of the dataset", expanded=False)
 	with my_expander_one:
 		html_one = """ 
-
 			<p>The dataset used to create the visualisation tool was provided by Eurostat, the statistical office of the European Union.
 			Eurostat is an administrative unit of the European Union with the mission to produce official European statistics.
 			<br>These data are provided by the national ministries of the interior and related official institutions.  
@@ -105,11 +140,9 @@ def write():
 			<br>
 			</p>"""
 		st.markdown(html_one, unsafe_allow_html=True)
-
-
 	
 	# expander 3 to open and close informations
-	my_expander_two = st.beta_expander("Implementation of the visualisation tool", expanded=False)
+	my_expander_two = st.beta_expander("Implementation and sharing of our visualisation tool", expanded=False)
 	with my_expander_two:
 		html_two = """ 
 			<p> The visualisation tool was implemented with the open source framework <a target="_blank" href="https://www.streamlit.io"><b> Streamlit</b></a>.<br> 
@@ -119,25 +152,32 @@ def write():
 			Probably the strongest point in choosing Streamlit is the time aspect. Because with Streamlit we can invest more time in processing and visualising the data than in dealing with the front end. <br>
 			<br>Furthermore, it is possible to integrate various libraries in Streamlit in order to create diagrams.
 			For the visualisation of our diagrams and filter options, libraries such as Streamlit, Plotly and Pandas were used:
-			<br><br>
-			<u>Pandas</u>
-				<ul>
-					<li>read CSV files</li>
-				</ul>
-			<u>Plotly (plotly.graph_objects)</u>
-				<ul>
-					<li>To create the maps, pie chart, sankey diagram and time graph</li>
-				</ul>
-			<u>Streamlit</u>
-				<ul>
-					<li>Create navigation sidebar, sliders, parameter filter and structure of the site</li>
-				</ul>
-			<u>HTML and CSS</u>
-				<ul>
-					<li>For user-specific design of the website and the information button</li>
-				</ul>
-		</p>"""
-			
+			<br>
+			<div id=aufzaehlung>
+				<u>Pandas</u>
+					<ul>
+						<li>To read CSV files</li>
+					</ul>
+				<u>Plotly (plotly.graph_objects)</u>
+					<ul>
+						<li>To create the maps, pie chart, sankey diagram and time graph</li>
+					</ul>
+				<u>Streamlit</u>
+					<ul>
+						<li>Create navigation sidebar, sliders, parameter filter and structure of the site</li>
+					</ul>
+				<u>HTML and CSS</u>
+					<ul>
+						<li>For user-specific design of the website and the information button</li>
+					</ul>
+			</div>
+		</p>
+		
+		<u>Sharing our Visualiszation tool to the public</u>
+		<br>Streamlit also offers Streamlit Sharing for the publication of our visualisation tools.
+		For this, a GitHub account was created by uploading all code files and then linking them to our Streamlit Sharing account. This is another advantage of Streamlit. It allows third parties to use our visualisation tool easily and without further installation. 
+		
+		"""	
 		st.markdown(html_two, unsafe_allow_html=True)
 
 	# expander 4 to open and close informations
@@ -253,11 +293,12 @@ def write():
 			It is usually unstructured and not very useful. It is necessary to analyse the data further so that a conclusion can be drawn from the data. 
 			To make this possible from the data set of asylum applications, we have developed a visualisation tool that allows the data to be illustrated with the help of various diagrams. 
 			The visualisation of the data makes it possible for the user to recognise patterns or correlations within the data sets.
-			
-			</p>"""
+			</p>	
+			"""
 		st.markdown(html_five, unsafe_allow_html=True)
-		
 	
+	
+
 	# expander 8 to open and close informations
 	my_expander_four = st.beta_expander("Source", expanded=False)
 	with my_expander_four:
@@ -271,7 +312,8 @@ def write():
 	c1, c2 = st.beta_columns((1,1))
 	container = st.beta_container()
 	st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
-			
+	
+
 		
 if __name__ == "__main__":
 	write()
