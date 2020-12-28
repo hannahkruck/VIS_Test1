@@ -60,11 +60,13 @@ def write():
         if selectedType == 'Target country':
             selectedType = df.destinationCountry.unique()
             countryCategory = 'destinationCountry'
+            namesToShow = 'homeCountry'
             selectedLon = 'lonDC'
             selectedLat = 'latDC'
         else:
             selectedType = df.homeCountry.unique()
             countryCategory = 'homeCountry'
+            namesToShow = 'destinationCountry'
             selectedLon = 'lonHC'
             selectedLat = 'latHC'
         # Drop down menu for selected country
@@ -224,6 +226,8 @@ def write():
         indexNames = df2[ df2[countryCategory] != selectedCountryMapLine ].index
         df2.drop(indexNames , inplace=True)
 
+        df2['subtotal'] = 0
+
         if selectedGender == 'Female':
             # if an age is selected
             if selectedAge:
@@ -233,35 +237,45 @@ def write():
                     if i == 'under 18':
                         indexNames = df2[ df2['fu18'] == 0].index
                         df2.drop(indexNames , inplace=True)
+                        df2['subtotal']=df2['subtotal']+df2['fu18']
                     elif i == '18 - 34':
                         indexNames = df2[ df2['f18'] == 0].index
                         df2.drop(indexNames , inplace=True)
+                        df2['subtotal']=df2['subtotal']+df2['f18']
                     elif i == '35 - 64':
                         indexNames = df2[ df2['f35'] == 0].index
                         df2.drop(indexNames , inplace=True)
+                        df2['subtotal']=df2['subtotal']+df2['f35']
                     elif i == 'over 65':
                         indexNames = df2[ df2['fo65'] == 0].index
                         df2.drop(indexNames , inplace=True)
+                        df2['subtotal']=df2['subtotal']+df2['fo18']
             else:
                 indexNames = df2[ df2['womenTotal'] == 0].index
                 df2.drop(indexNames , inplace=True)
+                df2['subtotal']=df2['subtotal']+df2['womenTotal']
         elif selectedGender == 'Male':
             for i in selectedAge:
                 if i == 'under 18':
                     indexNames = df2[ df2['mu18'] == 0].index
                     df2.drop(indexNames , inplace=True)
+                    df2['subtotal']=df2['subtotal']+df2['mu18']
                 elif i == '18 - 34':
                     indexNames = df2[ df2['m18'] == 0].index
                     df2.drop(indexNames , inplace=True)
+                    df2['subtotal']=df2['subtotal']+df2['m18']
                 elif i == '35 - 64':
                     indexNames = df2[ df2['m35'] == 0].index
                     df2.drop(indexNames , inplace=True)
+                    df2['subtotal']=df2['subtotal']+df2['m35']
                 elif i == 'over 65':
                     indexNames = df2[ df2['mo65'] == 0].index
                     df2.drop(indexNames , inplace=True)
+                    df2['subtotal']=df2['subtotal']+df2['mo65']
             else:
                 indexNames = df2[ df2['menTotal'] == 0].index
                 df2.drop(indexNames , inplace=True)
+                df2['subtotal']=df2['subtotal']+df2['menTotal']
         else: # if no gender is selected, that means the user wants to see all
             if selectedAge:
                 for i in selectedAge:
@@ -270,26 +284,57 @@ def write():
                         df2.drop(indexNames , inplace=True)
                         indexNames = df2[ df2['fu18'] == 0].index
                         df2.drop(indexNames , inplace=True)
+                        df2['subtotal']=df2['subtotal']+df2['mu18']+df2['fu18']
                     elif i == '18 - 34':
                         indexNames = df2[ df2['m18'] == 0].index
                         df2.drop(indexNames , inplace=True)
                         indexNames = df2[ df2['f18'] == 0].index
                         df2.drop(indexNames , inplace=True)
+                        df2['subtotal']=df2['subtotal']+df2['m18']+df2['f18']
                     elif i == '35 - 64':
                         indexNames = df2[ df2['m35'] == 0].index
                         df2.drop(indexNames , inplace=True)
                         indexNames = df2[ df2['f35'] == 0].index
                         df2.drop(indexNames , inplace=True)
+                        df2['subtotal']=df2['subtotal']+df2['m35']+df2['f35']
                     elif i == 'over 65':
                         indexNames = df2[ df2['mo65'] == 0].index
                         df2.drop(indexNames , inplace=True)
                         indexNames = df2[ df2['fo65'] == 0].index
                         df2.drop(indexNames , inplace=True)
+                        df2['subtotal']=df2['subtotal']+df2['mo65']+df2['fo65']
             else: # all people are considered
                 indexNames = df2[ df2['total'] == 0 ].index
                 df2.drop(indexNames , inplace=True)
 
 
+        # Create list of origin or target countries to display them in hover text
+        # Every second index must contain the country name, so a placeholder is necessary in front of it
+        # Structur: [number,name,number,name,...]
+        listPlaceholderNames = df2[namesToShow].values.tolist()
+        #listPlaceholderNumber = df2[a].values.tolist()
+
+
+
+        nameList = []
+        i = 0
+        if namesToShow == 'homeCountry':
+            for x in listPlaceholderNames:
+                nameList.append(i)
+                #x = x +': '+ str(listPlaceholderNumber[i])
+                nameList.append(x)
+                i = i+1
+            if len(nameList) != 0:
+                nameList[-2]=None
+        else:
+            for x in listPlaceholderNames:
+                nameList.append(x)
+                nameList.append(i)
+                i = i+1
+            if len(nameList) != 0:
+                nameList[-1]=None
+
+        #secondList=[0, 'Afghanistan', 1, 'Armenia', 2, 'Serbia', 3, 'Democratic Republic of the Congo', 4, 'Kosovo', 5, 'Russia', 6, 'South Sudan', None, 'Iraq']
 
         st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
 
@@ -323,6 +368,7 @@ def write():
             lon = df2[selectedLon],
             lat = df2[selectedLat],
             hoverinfo = 'text',
+            name=selectedCountryMapLine,
             text = df2[countryCategory],
             line = dict(width = 1,color = 'red'),
             opacity = 0.510,
@@ -345,10 +391,15 @@ def write():
         lats[::2] = df2['latDC']
         lats[1::2] = df2['latHC']
 
+        #hallo = 'testi'
+
         fig.add_trace(
             go.Scattergeo(
                 locationmode = 'country names',
                 visible= showLine,
+                name='routes',
+                text=nameList,
+                hovertemplate=nameList,
                 lon = lons,
                 lat = lats,
                 mode = 'lines',
