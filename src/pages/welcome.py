@@ -174,7 +174,7 @@ def write():
 		</p>
 		
 		<u>Sharing our Visualiszation tool to the public</u>
-		<br>Streamlit also offers Streamlit Sharing for the publication of our visualisation tools.
+		<br>Streamlit offers a function called "Streamlit Sharing", which makes it easy to publish our visualisation application. 
 		For this, a GitHub account was created by uploading all code files and then linking them to our Streamlit Sharing account. This is another advantage of Streamlit. It allows third parties to use our visualisation tool easily and without further installation. 
 		
 		"""	
