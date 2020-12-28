@@ -61,15 +61,16 @@ def write():
         <div class="tooltip">&#x24D8
             <span class="tooltiptext">
                 <b>Pie Chart</b><br>
-                    The pie chart represents the age distribution worldwide for the selected year.
+                    The pie chart shows the age distribution worldwide for the selected year. It should be noted that due to the overview, unknown data as well as data on overseas 
+                    countries and territories have been removed from the dataset.  In addition, for a few countries only temporary data has been provided.
                 <br><br>
                 <b>Sankey Diagram</b><br>
-                    The Sankey diagram shows the distribution of asylum applications from the different countries of origin (left) 
-                    to the different countries of destination (right).
-                    The top 10 origin and destination countries of a year are illustrated here.
-                    The colors only serve for better differentiation, but otherwise have no meaning and are also not assigned to a specific country. 
+                    The Sankey diagram shows the top 10 origin (left) and target (right) countries 
+                    as well as the distribution of asylum seekers per year.
+                    The colors only serve for better differentiation, but otherwise have no meaning and 
+                    are also not assigned to a specific country. 
                 <br><br>
-                    It should be noted that due to the overview, unknown data as well as data on overseas countries and territories have been removed from the dataset.  In addition, for a few countries only temporary data has been provided.
+                    It should be noted that due to the overview, unknown data as well as data on overseas countries and territories have been removed from the dataset.  In addition, for a few countries only temporary data has been provided. 
             </span>
         </div>
         ''', unsafe_allow_html=True)  
