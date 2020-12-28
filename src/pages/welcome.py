@@ -113,9 +113,9 @@ def write():
 			</div>
 
 			<br><b id=expand_three>Interaction Options</b><br>
-				VISUASYL contains a navigation bar that allows users to switch between the <i>Welcome, Home and Detail page</i>. 
+				VISUASYL contains a navigation bar that allows users to switch between the <i>Welcome, Map and Detail page</i>. 
 				The tool also offers users various ways to interact with the diagrams. Some charts allows users to show more information by hovering above the diagram or hide some informations 
-				by clicking on the legends of an diagram to highlight certain information. Other charts such as the maps on the home page, offer greater interaction possibilities by allowing users to select filters or parameter settings to obtain specific information, e.g. on a country, citizenship, age or gender. 
+				by clicking on the legends of an diagram to highlight certain information. Other charts such as the maps offer greater interaction possibilities by allowing users to select filters or parameter settings to obtain specific information, e.g. on a country, citizenship, age or gender. 
 				<br>
 				The following filtering options for the maps are available to users in the navigation bar:
 			<div id=aufzaehlung>

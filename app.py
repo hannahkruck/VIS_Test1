@@ -18,7 +18,7 @@ ast.core.services.other.set_logging_format()
 
 PAGES = {
     "Welcome": src.pages.welcome,
-    "Home": src.pages.home,
+    "Map": src.pages.home,
     "Detail": src.pages.detail,
 }
 
