@@ -75,12 +75,6 @@ def write():
 
 #----------------- Website content (Year slider, i-Button) -------------------
 
-        # Slider to choose the year
-        selected_year = st.slider("", (int(df["year"].min())),(int(df["year"].max())))
-
-        # Title for map regarding the chosen year
-        st.subheader('Asylum seekers in the year %s' % selected_year)
-
         # Markdown for i-Button
         # CSS and HTML Code
         st.markdown('''
@@ -130,6 +124,12 @@ def write():
         
         </span></div>
         ''', unsafe_allow_html=True)
+
+        # Slider to choose the year
+        selected_year = st.slider("", (int(df["year"].min())),(int(df["year"].max())))
+
+        # Title for map regarding the chosen year
+        st.subheader('Asylum seekers in the year %s' % selected_year)
 
 
 #----------------- Data preparation (general) -------------------
