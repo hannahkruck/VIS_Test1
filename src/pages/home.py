@@ -312,7 +312,10 @@ def write():
 
         # Create list of origin or target countries to display them in hover text
         # Every second index must contain the country name, so a placeholder is necessary in front of it
-        # Structur: [number,name,number,name,...]
+        # Structur: [placeholder,name+number,placeholder,name+number,...]
+        # name = listPlaceholderNames
+        # number = listPlaceholderNumber
+        
         listPlaceholderNames = df2[namesToShow].values.tolist()
         listPlaceholderNumber = df2[a].values.tolist()
 
