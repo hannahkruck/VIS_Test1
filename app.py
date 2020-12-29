@@ -14,6 +14,15 @@ import numpy as np
 
 st.set_page_config(layout="wide")
 
+# Markdown to hide MainMenu (which contains things like rerun or links to github)
+st.markdown('''
+        <style>
+            #MainMenu{
+            display:none;
+            }
+        </style>
+        ''', unsafe_allow_html=True)
+
 ast.core.services.other.set_logging_format()
 
 PAGES = {
