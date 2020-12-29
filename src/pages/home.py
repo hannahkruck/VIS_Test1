@@ -127,7 +127,7 @@ def write():
         <b>Choropleth Map</b><br>The Choropleth Map shows the number of asylum applications per country in Europe and the number of refugees per country worldwide for the selected year (see filter 'Select Map Information' for Choropleth Map).
         <br><br>
         <b>Line Map</b><br>The Line Map presents the routes of the refugees depending on the selected type. The type 'target country' shows from which countries the asylum seekers originate based on a specific target country. The type 'origin country' indicates where the asylum seekers are fleeing to from a specific country of origin.
-        <br><br>The visualisations can be adjusted using the filters. It should be noted that due to the overview, unknown data as well as data on overseas countries and territories have been removed from the dataset.  In addition, for a few countries only temporary data has been provided.
+        
         </span></div>
         ''', unsafe_allow_html=True)
 
@@ -255,23 +255,26 @@ def write():
                 df2.drop(indexNames , inplace=True)
                 df2['subtotal']=df2['subtotal']+df2['womenTotal']
         elif selectedGender == 'Male':
-            for i in selectedAge:
-                if i == 'under 18':
-                    indexNames = df2[ df2['mu18'] == 0].index
-                    df2.drop(indexNames , inplace=True)
-                    df2['subtotal']=df2['subtotal']+df2['mu18']
-                elif i == '18 - 34':
-                    indexNames = df2[ df2['m18'] == 0].index
-                    df2.drop(indexNames , inplace=True)
-                    df2['subtotal']=df2['subtotal']+df2['m18']
-                elif i == '35 - 64':
-                    indexNames = df2[ df2['m35'] == 0].index
-                    df2.drop(indexNames , inplace=True)
-                    df2['subtotal']=df2['subtotal']+df2['m35']
-                elif i == 'over 65':
-                    indexNames = df2[ df2['mo65'] == 0].index
-                    df2.drop(indexNames , inplace=True)
-                    df2['subtotal']=df2['subtotal']+df2['mo65']
+            if selectedAge:
+                # selectedAge is a list of strings
+                # Therefore, we have to check every entry in the list and delete the row if the value in the column for the age is null
+                for i in selectedAge:
+                    if i == 'under 18':
+                        indexNames = df2[ df2['mu18'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                        df2['subtotal']=df2['subtotal']+df2['mu18']
+                    elif i == '18 - 34':
+                        indexNames = df2[ df2['m18'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                        df2['subtotal']=df2['subtotal']+df2['m18']
+                    elif i == '35 - 64':
+                        indexNames = df2[ df2['m35'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                        df2['subtotal']=df2['subtotal']+df2['m35']
+                    elif i == 'over 65':
+                        indexNames = df2[ df2['mo65'] == 0].index
+                        df2.drop(indexNames , inplace=True)
+                        df2['subtotal']=df2['subtotal']+df2['mo18']
             else:
                 indexNames = df2[ df2['menTotal'] == 0].index
                 df2.drop(indexNames , inplace=True)
@@ -307,34 +310,31 @@ def write():
                 indexNames = df2[ df2['total'] == 0 ].index
                 df2.drop(indexNames , inplace=True)
 
-
         # Create list of origin or target countries to display them in hover text
         # Every second index must contain the country name, so a placeholder is necessary in front of it
         # Structur: [number,name,number,name,...]
         listPlaceholderNames = df2[namesToShow].values.tolist()
-        #listPlaceholderNumber = df2[a].values.tolist()
-
-
+        listPlaceholderNumber = df2[a].values.tolist()
 
         nameList = []
         i = 0
         if namesToShow == 'homeCountry':
             for x in listPlaceholderNames:
                 nameList.append(i)
-                #x = x +': '+ str(listPlaceholderNumber[i])
+                x = x +': '+ str(listPlaceholderNumber[i])
                 nameList.append(x)
                 i = i+1
             if len(nameList) != 0:
                 nameList[-2]=None
         else:
             for x in listPlaceholderNames:
+                x = x +': '+ str(listPlaceholderNumber[i])
                 nameList.append(x)
                 nameList.append(i)
                 i = i+1
             if len(nameList) != 0:
                 nameList[-1]=None
 
-        #secondList=[0, 'Afghanistan', 1, 'Armenia', 2, 'Serbia', 3, 'Democratic Republic of the Congo', 4, 'Kosovo', 5, 'Russia', 6, 'South Sudan', None, 'Iraq']
 
         st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
 
@@ -397,12 +397,12 @@ def write():
             go.Scattergeo(
                 locationmode = 'country names',
                 visible= showLine,
-                name='routes',
+                name='route and number <br>of asylum seekers',
                 text=nameList,
                 hovertemplate=nameList,
                 lon = lons,
                 lat = lats,
-                mode = 'lines',
+                mode = 'markers+lines',
                 line = dict(width = 1,color = 'red'),
                 opacity = 0.5
             )
