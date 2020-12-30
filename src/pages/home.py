@@ -249,7 +249,7 @@ def write():
                     elif i == 'over 65':
                         indexNames = df2[ df2['fo65'] == 0].index
                         df2.drop(indexNames , inplace=True)
-                        df2['subtotal']=df2['subtotal']+df2['fo18']
+                        df2['subtotal']=df2['subtotal']+df2['fo65']
             else:
                 indexNames = df2[ df2['womenTotal'] == 0].index
                 df2.drop(indexNames , inplace=True)
@@ -274,7 +274,7 @@ def write():
                     elif i == 'over 65':
                         indexNames = df2[ df2['mo65'] == 0].index
                         df2.drop(indexNames , inplace=True)
-                        df2['subtotal']=df2['subtotal']+df2['mo18']
+                        df2['subtotal']=df2['subtotal']+df2['mo65']
             else:
                 indexNames = df2[ df2['menTotal'] == 0].index
                 df2.drop(indexNames , inplace=True)
