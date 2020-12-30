@@ -358,6 +358,7 @@ def write():
             colorscale = mapColor,
             autocolorscale=False,
             reversescale=False,
+            name="",
             marker_line_color='darkgray',
             marker_line_width=0.5,
             colorbar_tickprefix = '',
