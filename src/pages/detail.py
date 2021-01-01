@@ -66,6 +66,9 @@ def write():
                 <b>Sankey Diagram</b><br>
                     The Sankey diagram shows the top 10 origin (left) and target (right) countries 
                     as well as the distribution of asylum seekers per year.
+                <br><br>
+                <b>Line Chart</b><br>
+                    The line chart shows the development of total annual asylum applications over the years.
             </span>
         </div>
         ''', unsafe_allow_html=True)  
