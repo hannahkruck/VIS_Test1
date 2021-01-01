@@ -437,9 +437,17 @@ def write():
                 l=0,
                 r=0,
                 b=0,
-                t=0,
+                t=20,
             ),
         )
 
         # Display figure
-        st.plotly_chart(fig,use_container_width=True,config=dict(displayModeBar=False))
+        st.plotly_chart(fig,use_container_width=True, config={'modeBarButtonsToRemove': ['lasso2d','select2d', 'pan2d', 'hoverClosestGeo']})
+
+        # Hide the whole modebar
+        # config=dict(displayModeBar=False)
+
+        # CSS to hide plotly icon in modebar
+        #.modebar-btn--logo{
+        #    display:none;
+        #}
