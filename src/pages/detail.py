@@ -152,7 +152,7 @@ def write():
     
     data = go.Sankey(link = link, node=node)
     
-    # properties sanky diagram layout 
+    # properties sankey diagram layout 
     fig2 = go.Figure(data, layout= layout)
 
     #-----------------Create pie chart-------------------
@@ -218,13 +218,13 @@ def write():
 #------------Create Timeline Years V. 2.0-------------------
     # read CSV for the histogram graph
     df = pd.read_csv("https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/Histogram_mini.csv",encoding ="utf8", sep = ";")
+    
     # use years for the x-axis and the worldwide amount of asylum applications for the y-axis
     fig3 = go.Figure(go.Scatter(x = df['year'], y = df['asylum_applications_worldwide']))
+    
     # customizing the graph
     fig3.update_layout(
-    # customize width
-        #autosize=False,
-        width=1900,
+    # customize height
         height=100,
     # hide labels
         yaxis={'visible': False, 'showticklabels': False
@@ -233,16 +233,16 @@ def write():
         xaxis={'type': 'category'},
     # create white background to match with initial background of streamlit
         plot_bgcolor='rgb(255,255,255)',
+
     # set all margins and padding to zero to create full width graph
         margin=go.layout.Margin(
         l=0,
-        r=35,
+        r=0,
         b=0,
         t=0,
         pad = 0
     )
 )
-#------------Create Slider Years V. 2.0-------------------
 
     with c1:
         st.subheader('Asylum seekers by age in Europe in the year %s' % selected_year) 
