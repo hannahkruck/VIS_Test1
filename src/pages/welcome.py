@@ -57,10 +57,7 @@ def write():
 	
     """, unsafe_allow_html=True)
 	
-	# title of the page
-	#st.title("Welcome to visuasyl")
-
-	# html markdown text
+	# html markdown titel of the page and text
 	html = """
 		<h1 id=h1><b>Welcome to VISUASYL</b><h1>
 		<h3 id=text><b>VISUASYL</b> is an interactive visualisation tool that visually illustrates information about asylum applications and the development in Europe. 
@@ -75,7 +72,7 @@ def write():
 	"""
 	st.markdown(html, unsafe_allow_html=True)
 	
-	# expander 1 to open and close informations
+	# expander 1 to open and close informations 
 	my_expander_three = st.beta_expander("Informations and interaction options of VISUASYL", expanded=False)
 	with my_expander_three:
 		html_three = """ 
@@ -211,8 +208,8 @@ def write():
 	my_expander_three = st.beta_expander("Target Group", expanded=False)
 	with my_expander_three:
 		html_three = """ 
-			<p> Visuasyl was mainly developed for political parties, politicians and non-governmental organisations (NGOs). 
-			Because of the simple functionalities, visuasyl can also be used by non-experts and interested parties. </p>"""
+			<p> VISUASYL was mainly developed for political parties, politicians and non-governmental organisations (NGOs). 
+			Because of the simple functionalities, VISUASYL can also be used by non-experts and interested parties. </p>"""
 		st.markdown(html_three, unsafe_allow_html=True)
 
 	# expander 6 to open and close informations
@@ -271,9 +268,9 @@ def write():
 	my_expander_five = st.beta_expander("About us", expanded=False)
 	with my_expander_five:
 		html_five = """ 
-			<p>The visualisation tool <b>visuasyl</b> was developed as part of the module "Visualisation". 
+			<p>The visualisation tool <b>VISUASYL</b> was developed as part of the module "Visualisation". 
 			The aim of this module has been to find a dataset of interest and to develop a visualisation tool. 
-			<br>visuasyl was developed by five students (3rd semester) of the Human-Centered Computing programme at Reutlingen University:
+			<br>VISUASYL was developed by five students (3rd semester) of the Human-Centered Computing programme at Reutlingen University:
 			<br>
 			<ul>
 				<li> Rahel Anna, Illi<br></li>
