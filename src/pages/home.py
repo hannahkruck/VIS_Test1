@@ -121,6 +121,8 @@ def write():
         <b>Choropleth Map</b><br>The Choropleth Map shows the number of asylum applications per country in Europe and the number of refugees per country worldwide for the selected year (see filter 'Select Map Information' for Choropleth Map).
         <br><br>
         <b>Line Map</b><br>The Line Map presents the routes of the refugees depending on the selected type. The type 'target country' shows from which countries the asylum seekers originate based on a specific target country. The type 'origin country' indicates where the asylum seekers are fleeing to from a specific country of origin.
+        <br><br>
+        <b>Colour gradient</b><br> It should be noted here that the colour gradient adjusts to the maximum and minimum value, i.e. the colour changes with each filtering.
         
         </span></div>
         ''', unsafe_allow_html=True)
