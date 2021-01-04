@@ -73,10 +73,8 @@ def write():
         </div>
         ''', unsafe_allow_html=True)  
 
-    # read csv
-    # old csv  pie structure 
-    # df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart.csv',sep = ';')
-    # new csv  pie structure
+    # read csv    
+    # new csv to connect slider
     df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart_neu_struk.csv',sep = ';')
 
 
@@ -112,11 +110,13 @@ def write():
     label_souce2 = []
     elementVar = ''
 
+    # 
     for i in label_souce: 
         if(i != elementVar) : 
             label_souce2.append(i)
         elementVar = i
 
+    # 
     label_target = show_df['Label_Target'].dropna(axis=0, how='any')
     label = [*label_souce2, *label_target]
     source = show_df['Source'].dropna(axis=0, how='any')
@@ -125,11 +125,11 @@ def write():
 
     # setting color for node and link
     color_node = [
-    # Source order Syria, Afghanistan, Venezuela, Irak, Colombia, Pakistan, Türkei, Nigeria, Iran, Albania
+    # Source color order Syria, Afghanistan, Venezuela, Irak, Colombia, Pakistan, Türkei, Nigeria, Iran, Albania
     '#40bf77', '#93beec', '#1ff91f', '#cd8162', '#a6a6a6', '#80e5ff', '#b299e6', '#ff33ff', '#CDC037', '#ff6a6a',
-    # Target 
+    # Target color order
     '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641', '#0B2641']
-    
+
     color_link = [
     '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', '#b8e0b8', 
     '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', '#bed8f4', 
@@ -189,7 +189,7 @@ def write():
 
     # create pie figure
     fig1 = go.Figure(data=[go.Pie(
-            labels = labels, 
+            labels = labels,        
             values = values, 
             insidetextorientation = 'radial',
             hole = 0.399,)])
