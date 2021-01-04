@@ -17,12 +17,7 @@ def write():
     # Page title
     st.title("Detailed view")
     
-    # read CSV
-    # CSV for Pie Chart
-    df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart.csv',sep = ';')
-    
-
-    #-----------------Markdown info-----------------
+    #-----------------Markdown info CSS-----------------
     st.markdown('''
     <!-- https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip_transition & https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip_right-->
     <style>
@@ -73,14 +68,14 @@ def write():
         </div>
         ''', unsafe_allow_html=True)  
 
-    # read csv    
-    # new csv to connect slider
-    df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/piechart_neu_struk.csv',sep = ';')
-
+   
+    # read csv for sankey diagram
+    show_df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/Datensatz_Sankey_Diagramm_eng.csv',sep = ';')
 
     #-----------------Slider-------------------
-    # Slider to choose Year for diagramm
-    year = st.slider("", (int(df["Year"].min())),(int(df["Year"].max())))
+    # Create Slider and get from above read csv min and max years 
+    year = st.slider("", (int(show_df["Year"].min())),(int(show_df["Year"].max())))
+    # Variable year for both diagrams
     selected_year = year
 
 
@@ -98,9 +93,6 @@ def write():
     # Variable year for Sankey diagram
     yearVar = selected_year    
                          
-    # read sankey csv and data selection
-    show_df = pd.read_csv('https://raw.githubusercontent.com/hannahkruck/VIS_Test1/Develop/Datensatz_Sankey_Diagramm_eng.csv',sep = ';')
-
     # year
     yearRows = show_df[show_df['Year'] != yearVar].index
     show_df.drop(yearRows , inplace=True)
