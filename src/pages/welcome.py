@@ -20,38 +20,40 @@ def write():
 	#-----------CSS Startseite------------
 	st.markdown("""
 	<style>
-		body {
+		body {						/* body properties*/
 			color: black;
 			font-color: black;
 			background-color: white;
-  			/*background: #e6f2ff;*/
 		}
-		#h1 {
-			text-align: center;
+
+		#h1 {						/* title*/
+			text-align: center;		
 		}
-		/* Navigationsueberschrift mittig
-		h1 {
-			text-align: center;
-		}*/
+
 		h3 {
-			text-align: justify;
-			text-align: center;*/
+			text-align: center;		
 		}
+
 		p {
-			text-align: justify; 
+			text-align: justify; 	
 		}
+
+		/*page title text*/
 		#text {
-			color: #06648c; /*#1878a1;*/
-			font-weight:normal;
+			color: #06648c;			
+			font-weight: normal;	
+			line-height: 150%;		
 		}
-		#expand_three {
-			color: #1878a1;
-			font-size: 18px;
+
+		#title_color_one {					
+			color: #1878a1;			
+			font-size: 18px;		
 		}
+
 		#aufzaehlung {
-			margin-left: 30px;
+			margin-left: 30px;	
 		}
-		
+
 	</style>
 
 	
@@ -61,10 +63,8 @@ def write():
 	html = """
 		<h1 id=h1><b>Welcome to VISUASYL</b><h1>
 		<h3 id=text><b>VISUASYL</b> is an interactive visualisation tool that visually illustrates information about asylum applications and the development in Europe. 
-			<br>The aim of VISUASYL is to provide users with an insight and overview of the number of annual asylum applications and migration in Europe 
-			between 2010 and 2019, using different visualisation methods. 
-			<br>VISUASYL was mainly developed for political parties, politicians and non-governmental organisations (NGOs). 
-			Because of the simple functionalities, VISUASYL can also be used by non-experts and interested parties.	
+			<br>The aim of VISUASYL is to provide users with an insight and overview of the number of annual asylum applications in Europe and the connections 
+			to countries of origin worldwide between 2010 and 2019 using different visualisation methods.
 			<br>
 		</h3>
 
@@ -73,10 +73,10 @@ def write():
 	st.markdown(html, unsafe_allow_html=True)
 	
 	# expander 1 to open and close informations 
-	my_expander_three = st.beta_expander("Informations and interaction options of VISUASYL", expanded=False)
-	with my_expander_three:
-		html_three = """ 
-			<b id=expand_three>Informations</b>
+	my_expander_one = st.beta_expander("Information and interaction options of VISUASYL", expanded=False)
+	with my_expander_one:
+		html_one = """ 
+			<b id=title_color_one>Information</b>
 			<br>VISUASYL uses visualisation methods to provide an overview of the number of annual asylum applications and migration in Europe. The diagrams and the information they provide are described below.
 			
 			<div id=aufzaehlung>
@@ -109,7 +109,7 @@ def write():
 					</ul>
 			</div>
 
-			<br><b id=expand_three>Interaction Options</b><br>
+			<br><b id=title_color_one>Interaction Options</b><br>
 				VISUASYL contains a navigation bar that allows users to switch between the <i>Welcome, Map and Detail page</i>. 
 				The tool also offers users various ways to interact with the diagrams. Some charts allows users to show more information by hovering above the diagram or hide some informations 
 				by clicking on the legends of an diagram to highlight certain information. Other charts such as the maps offer greater interaction possibilities by allowing users to select filters or parameter settings to obtain specific information, e.g. on a country, citizenship, age or gender. 
@@ -123,88 +123,22 @@ def write():
 			</div>
 			By adjusting the time slider, users can update the data of the charts to the selected year.
 			<br><br>"""
-		st.markdown(html_three, unsafe_allow_html=True)
+		st.markdown(html_one, unsafe_allow_html=True)
 
 
 	# expander 2 to open and close informations
-	my_expander_one = st.beta_expander("Source of the dataset", expanded=False)
-	with my_expander_one:
-		html_one = """ 
-			<p>The dataset used to create the visualisation tool was provided by Eurostat, the statistical office of the European Union.
-			Eurostat is an administrative unit of the European Union with the mission to produce official European statistics.
-			<br>These data are provided by the national ministries of the interior and related official institutions.  
-			<br>Link to the Dataset: <a target="_blank" href="https://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=migr_asyappctza&lang=de">Asylum and first time asylum applicants by citizenship, age and sex - annual aggregated data (rounded)<br></a>
-			<br>
-			</p>"""
-		st.markdown(html_one, unsafe_allow_html=True)
-	
-	# expander 3 to open and close informations
-	my_expander_two = st.beta_expander("Implementation and sharing of our visualisation tool", expanded=False)
+	my_expander_two = st.beta_expander("Source of the dataset", expanded=False)
 	with my_expander_two:
 		html_two = """ 
-			<p> The visualisation tool was implemented with the open source framework <a target="_blank" href="https://www.streamlit.io"><b> Streamlit</b></a>.<br> 
-			Streamlit is both a library and a framework for Python. 
-			It allows users to create and publish interactive web apps with a graphical user interface and data visualisation. 
-			<br><br>The advantage of Streamlit is that no front-end experience is required and we can create interactive graphical user interfaces and visualisations using only the Python programming language. 
-			Probably the strongest point in choosing Streamlit is the time aspect. Because with Streamlit we can invest more time in processing and visualising the data than in dealing with the front end. <br>
-			<br>Furthermore, it is possible to integrate various libraries in Streamlit in order to create diagrams.
-			For the visualisation of our diagrams and filter options, libraries such as Streamlit, Plotly and Pandas were used:
+			<p>The dataset used to create the visualisation tool was provided by Eurostat, the statistical office of the European Union.
+			Eurostat is an administrative unit of the European Union with the mission to produce official European statistics.
+			These data are provided by the national ministries of the interior and related official institutions.  
+			<br><br>Link to the Dataset: <a target="_blank" href="https://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=migr_asyappctza&lang=de">Asylum and first time asylum applicants by citizenship, age and sex - annual aggregated data (rounded)<br></a>
 			<br>
-			<div id=aufzaehlung>
-				<u>Pandas</u>
-					<ul>
-						<li>To read CSV files</li>
-					</ul>
-				<u>Plotly (plotly.graph_objects)</u>
-					<ul>
-						<li>To create the maps, pie chart, sankey diagram and time graph</li>
-					</ul>
-				<u>Streamlit</u>
-					<ul>
-						<li>Create navigation sidebar, sliders, parameter filter and structure of the site</li>
-					</ul>
-				<u>HTML and CSS</u>
-					<ul>
-						<li>For user-specific design of the website and the information button</li>
-					</ul>
-			</div>
-		</p>
-		
-		<u>Sharing our Visualiszation tool to the public</u>
-		<br>Streamlit offers a function called "Streamlit Sharing", which makes it easy to publish our visualisation application. 
-		For this, a GitHub account was created by uploading all code files and then linking them to our Streamlit Sharing account. This is another advantage of Streamlit. It allows third parties to use our visualisation tool easily and without further installation. 
-		
-		"""	
+			</p>"""
 		st.markdown(html_two, unsafe_allow_html=True)
 
-	# expander 4 to open and close informations
-	my_expander_three = st.beta_expander("Data Preprocessing", expanded=False)
-	with my_expander_three:
-		html_three = """ 
-			<p> In order to have the data in a appropriate format to be displayed in the GUI, 
-			the existing data set had to be filtered and adjusted. 
-			It was found that it is easiest for the visualization to create a separate pre-processed data set for each visualization form.
-			This creates more effort on the side of data pre-processing and data transformations, 
-			but makes the visualization in the GUI much easier.  
-			<br></br>
-			As a first step, it was examined what a suitable CSV file should look like for each visualization form and 
-			thereby a data structure was defined. 
-			The data is provided in CSV files, since these can be processed well with Python and no database has to be set up.
-			<br></br>
-			In the given dataset, data without specific classification, such as gender, age, or country of origin, was listed as unknown. 
-			For our application, we decided to use only unambiguously assignable data, 
-			as this allows a conclusive statement for the given rubric and does not add to the complexity. 
-			In addition, it was particularly important for us to remain consistent, so for each of the pre-processed datasets, 
-			we explicitly selected males, females, and those under 18, 18-34, 35-64, and over 65. 
-			For additional simplicity, we also omitted the distinction between asylum applications and initial applications.
-			Furthermore, data for the Overseas Countries and Territories ("Überseeische Länder und Hoheitsgebiete") were removed, 
-			since no unique geocode could be determined for this area, which is, however, important for the visualization of the map.
-			A period of 10 years (2010 to 2019) was selected as the data for 2020 was not yet complete, 
-			but in general the less distant data seemed more interesting.
-			</p>"""
-		st.markdown(html_three, unsafe_allow_html=True)
-
-	# expander 5 to open and close informations
+	# expander 3 to open and close informations
 	my_expander_three = st.beta_expander("Target Group", expanded=False)
 	with my_expander_three:
 		html_three = """ 
@@ -212,7 +146,7 @@ def write():
 			Because of the simple functionalities, VISUASYL can also be used by non-experts and interested parties. </p>"""
 		st.markdown(html_three, unsafe_allow_html=True)
 
-	# expander 6 to open and close informations
+	# expander 4 to open and close informations
 	my_expander_four = st.beta_expander("Insights through the visualisation tool", expanded=False)
 	with my_expander_four:
 		html_four = """ 
@@ -262,22 +196,90 @@ def write():
 				</table>
 			</p>"""
 		st.markdown(html_four, unsafe_allow_html=True)
-
-
-	# expander 7 to open and close informations
-	my_expander_five = st.beta_expander("About us", expanded=False)
+	
+	# expander 5 to open and close informations
+	my_expander_five = st.beta_expander("Data Preprocessing", expanded=False)
 	with my_expander_five:
 		html_five = """ 
+			<p> In order to have the data in a appropriate format to be displayed in the GUI, 
+			the existing data set had to be filtered and adjusted. 
+			It was found that it is easiest for the visualization to create a separate pre-processed data set for each visualization form.
+			This creates more effort on the side of data pre-processing and data transformations, 
+			but makes the visualization in the GUI much easier.  
+			<br></br>
+			As a first step, it was examined what a suitable CSV file should look like for each visualization form and 
+			thereby a data structure was defined. 
+			The data is provided in CSV files, since these can be processed well with Python and no database has to be set up.
+			<br></br>
+			In the given dataset, data without specific classification, such as gender, age, or country of origin, was listed as unknown. 
+			For our application, we decided to use only unambiguously assignable data, 
+			as this allows a conclusive statement for the given rubric and does not add to the complexity. 
+			In addition, it was particularly important for us to remain consistent, so for each of the pre-processed datasets, 
+			we explicitly selected males, females, and those under 18, 18-34, 35-64, and over 65. 
+			For additional simplicity, we also omitted the distinction between asylum applications and initial applications.
+			Furthermore, data for the Overseas Countries and Territories ("Überseeische Länder und Hoheitsgebiete") were removed, 
+			since no unique geocode could be determined for this area, which is, however, important for the visualization of the map.
+			A period of 10 years (2010 to 2019) was selected as the data for 2020 was not yet complete, 
+			but in general the less distant data seemed more interesting.
+			</p>"""
+		st.markdown(html_five, unsafe_allow_html=True)
+
+	# expander 6 to open and close informations
+	my_expander_six = st.beta_expander("Implementation and sharing of our visualisation tool", expanded=False)
+	with my_expander_six:
+		html_six = """ 
+			<p> The visualisation tool was implemented with the open source framework <a target="_blank" href="https://www.streamlit.io"><b> Streamlit</b></a>.<br> 
+			Streamlit is both a library and a framework for Python. 
+			It allows users to create and publish interactive web apps with a graphical user interface and data visualisation. 
+			<br><br>The advantage of Streamlit is that no front-end experience is required and we can create interactive graphical user interfaces and visualisations using only the Python programming language. 
+			Probably the strongest point in choosing Streamlit is the time aspect. Because with Streamlit we can invest more time in processing and visualising the data than in dealing with the front end. <br>
+			<br>Furthermore, it is possible to integrate various libraries in Streamlit in order to create diagrams.
+			For the visualisation of our diagrams and filter options, libraries such as Streamlit, Plotly, Pandas and Numpy were used:
+			<br>
+			<div id=aufzaehlung>
+				<u>Pandas</u>
+					<ul>
+						<li>To read CSV files</li>
+					</ul>
+				<u>Plotly (plotly.graph_objects)</u>
+					<ul>
+						<li>To create the maps, pie chart, sankey diagram and time graph</li>
+					</ul>
+				<u>NumPy (Numpy Array slicing)</u>
+					<ul>
+						<li>Indexing individual elements from an array and to slicing the elements from one given index to another given index. We used it for slicing the Longitude and Latitude</li>
+					</ul>
+				<u>Streamlit</u>
+					<ul>
+						<li>Create navigation sidebar, sliders, parameter filter and structure of the site</li>
+					</ul>
+				<u>HTML and CSS</u>
+					<ul>
+						<li>For user-specific design of the website and the information button</li>
+					</ul>
+			</div>
+			</p>
+		
+			<u>Sharing our Visualiszation tool to the public</u>
+			<br>Streamlit offers a function called "Streamlit Sharing", which makes it easy to publish our visualisation application. 
+			For this, a GitHub account was created by uploading all code files and then linking them to our Streamlit Sharing account. This is another advantage of Streamlit. It allows third parties to use our visualisation tool easily and without further installation. 
+			"""	
+		st.markdown(html_six, unsafe_allow_html=True)
+
+	# expander 7 to open and close informations
+	my_expander_seven = st.beta_expander("About us", expanded=False)
+	with my_expander_seven:
+		html_seven = """ 
 			<p>The visualisation tool <b>VISUASYL</b> was developed as part of the module "Visualisation". 
 			The aim of this module has been to find a dataset of interest and to develop a visualisation tool. 
-			<br>VISUASYL was developed by five students (3rd semester) of the Human-Centered Computing programme at Reutlingen University:
+			VISUASYL was developed by five students (3rd semester) of the Human-Centered Computing programme at Reutlingen University:
 			<br>
 			<ul>
 				<li> Rahel Anna, Illi<br></li>
 				<li> Jessica, Giebel<br></li>
 				<li> Yailda, Aini<br></li>
 				<li> Hannah, Kruck<br></li>
-				<li> Manuel, Haynes<br></li>
+				<li> Manuel Samuel, Haynes<br></li>
 			</ul>
 
 			<u>Why did we choose this theme and data set?</u><br>
@@ -290,21 +292,20 @@ def write():
 			It is usually unstructured and not very useful. It is necessary to analyse the data further so that a conclusion can be drawn from the data. 
 			To make this possible from the data set of asylum applications, we have developed a visualisation tool that allows the data to be illustrated with the help of various diagrams. 
 			The visualisation of the data makes it possible for the user to recognise patterns or correlations within the data sets.
-			</p>	
+			</p><br>
+			<p>Quelle: <br>[1] <a target="_blank" href="https://www.bundesregierung.de/breg-de/themen/migration-und-integration">Was tut die Bundesregierung im Bereich Migration und Integration? 16.10.2020.</a> Letzter Zugriff: 05.01.2020<br></p>
 			"""
-		st.markdown(html_five, unsafe_allow_html=True)
+		st.markdown(html_seven, unsafe_allow_html=True)
 	
-	
-
 	# expander 8 to open and close informations
-	my_expander_four = st.beta_expander("Source", expanded=False)
-	with my_expander_four:
-		html_four = """ 
-			[1] Link to GitHub Project: <a target="_blank" href="https://github.com/hannahkruck/VIS_Test1.git"> VISUASYL</a><br> 			
-			<p>[2] <a target="_blank" href="https://www.bundesregierung.de/breg-de/themen/migration-und-integration">Was tut die Bundesregierung im Bereich Migration und Integration? (16.10.2020)</a><br></p>
-			"""
-		st.markdown(html_four, unsafe_allow_html=True)
+	my_expander_eight = st.beta_expander("Source", expanded=False)
+	with my_expander_eight:
+		html_eight = """ 
+			Link to GitHub Repository of VISUASYL: <a target="_blank" href="https://github.com/hannahkruck/VISUASYL.git">VISUASYL</a><br> 			
+			Link to VISUASYL TOOL: <a target="_blank" href="https://share.streamlit.io/hannahkruck/visuasyl/app.py"> VISUASYL TOOL</a><br> 			
 
+			"""
+		st.markdown(html_eight, unsafe_allow_html=True)
 
 	#-----------------Page Layout--------------
     # Layout setting of the page
