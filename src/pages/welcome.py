@@ -170,7 +170,8 @@ def write():
 						<td>More asylum applications are prepared by men than by women.</td>
 						<td>Yes, this question can be examined. However, the data classified as unknown were omitted. 
 						Due to this unreported number, it is possible that the actual values differ from those presented here.</td>
-						<td> ... </td>
+						<td> Yes, the hyopthesis can be confirmed. However, the comparison must be made independently, since there is no graph that compares the ratio of men and women. 
+						Also, the total number of men and women is not shown, but only country by country. </td>
 					</tr>
 					<tr>
 						<td>Federal states which have a border with neighboring states receive more asylum applications.</td>
@@ -181,7 +182,8 @@ def write():
 						<td>Countries that have a border at the sea receive more asylum applications.</td>
 						<td> The number of asylum applications can be taken and compared manually. 
 						But differences in distribution can also be influenced by other factors, such as the size of the country and the policies of the respective country.</td>
-						<td> ... </td>
+						<td> This hypothesis cannot be confirmed. The comparison must be made independently via the map. 
+						However, the difference can be quickly determined visually via the different colors.  </td>
 					</tr>
 					<tr>
 						<td>Countries with a good economic situation receive more asylum applications.</td>
