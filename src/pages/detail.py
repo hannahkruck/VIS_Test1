@@ -140,7 +140,14 @@ def write():
     layout = dict(
         height = 800, 
         font = dict(
-            size = 11),)
+            size = 11),
+        margin=dict(
+            l=0,
+            r=0,
+            b=0,
+            t=30,
+        ),
+    )
     
     data = go.Sankey(link = link, node=node)
     
@@ -196,16 +203,23 @@ def write():
 	
     # update settings layout
     fig1.update_layout(dict(
-        height = 600, 
+        height = 400,
         font = dict(
             size = 12)))
 
     # add annotations in the center of the donut pie
     fig1.update_layout(
-    annotations=[dict(
+        annotations=[dict(
             text='<b>Age<br> Distribution</b>', 
             font_size=12, 
-            showarrow=False),])
+            showarrow=False),],
+        margin=dict(
+            l=0,
+            r=0,
+            b=0,
+            t=50,
+        ),
+    )
 
 #------------Create Timeline Years V. 2.0-------------------
     # read CSV for the histogram graph
