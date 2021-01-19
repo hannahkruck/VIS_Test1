@@ -12,8 +12,7 @@ import altair as alt
 from altair import Chart, X, Y, Axis, SortField, OpacityValue
 import numpy as np
 
-st.set_page_config(layout="wide")
-
+st.set_page_config(layout="wide", page_title='VISUASYL', page_icon = "🌍")
 # Markdown to hide MainMenu (which contains things like rerun or links to github)
 st.markdown('''
         <style>
